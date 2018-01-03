@@ -19,7 +19,7 @@ namespace mrcnpdlk\Weather;
  *
  * @package mrcnpdlk\Weather
  */
-final class NativeApi
+abstract class NativeApi
 {
     /**
      * @var \mrcnpdlk\Weather\NativeApi|null
@@ -43,9 +43,9 @@ final class NativeApi
     /**
      * @param \mrcnpdlk\Weather\Client $oClient
      *
-     * @return \mrcnpdlk\Weather\NativeApi
+     * @return static
      */
-    public static function create(Client $oClient): NativeApi
+    public static function create(Client $oClient)
     {
         static::$instance = new static($oClient);
 
@@ -53,10 +53,10 @@ final class NativeApi
     }
 
     /**
-     * @return \mrcnpdlk\Weather\NativeApi
+     * @return static
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public static function getInstance(): NativeApi
+    public static function getInstance()
     {
         if (!isset(static::$instance)) {
             throw new Exception(sprintf('First call CREATE method!'));

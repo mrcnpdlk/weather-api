@@ -4,8 +4,128 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3cec244da3acb5cb9695a2faf13100f",
+    "content-hash": "b2a808cd06fbe33d2beae11517c0c8dd",
     "packages": [
+        {
+            "name": "curl/curl",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-mod/curl.git",
+                "reference": "16e8489b048ef57ffbf74591a201f7808155b2db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-mod/curl/zipball/16e8489b048ef57ffbf74591a201f7808155b2db",
+                "reference": "16e8489b048ef57ffbf74591a201f7808155b2db",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "squizlabs/php_codesniffer": "~2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Curl": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hassan Amouhzi",
+                    "email": "hassan@anezi.net",
+                    "homepage": "http://hassan.amouhzi.com"
+                },
+                {
+                    "name": "php-curl-class",
+                    "homepage": "https://github.com/php-curl-class"
+                },
+                {
+                    "name": "user52",
+                    "homepage": "https://github.com/user52"
+                }
+            ],
+            "description": "cURL class for PHP",
+            "homepage": "https://github.com/php-mod/curl",
+            "keywords": [
+                "curl",
+                "dot"
+            ],
+            "time": "2017-08-12T11:44:08+00:00"
+        },
+        {
+            "name": "mjaschen/phpgeo",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mjaschen/phpgeo.git",
+                "reference": "080a41441d4b0e886d681633e515e2ffc1b180ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mjaschen/phpgeo/zipball/080a41441d4b0e886d681633e515e2ffc1b180ac",
+                "reference": "080a41441d4b0e886d681633e515e2ffc1b180ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "apigen/apigen": "~4.1",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Location": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Jaschen",
+                    "email": "mjaschen@gmail.com",
+                    "homepage": "https://www.marcusjaschen.de/"
+                }
+            ],
+            "description": "Simple Geo Library",
+            "homepage": "https://phpgeo.marcusjaschen.de/",
+            "keywords": [
+                "Polygon",
+                "area",
+                "bearing",
+                "bounds",
+                "calculation",
+                "coordinate",
+                "distance",
+                "earth",
+                "ellipsoid",
+                "geo",
+                "geofence",
+                "gis",
+                "gps",
+                "haversine",
+                "length",
+                "point",
+                "polyline",
+                "projection",
+                "simplify",
+                "track",
+                "vincenty"
+            ],
+            "time": "2017-09-27T07:29:46+00:00"
+        },
         {
             "name": "mrcnpdlk/psr16cache-adapter",
             "version": "v0.1.1",

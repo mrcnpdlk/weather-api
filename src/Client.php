@@ -27,8 +27,6 @@ use Psr\SimpleCache\CacheInterface;
  */
 class Client
 {
-    const SERVICE_GIOS_URL = 'http://api.gios.gov.pl/pjp-api/rest';
-
     /**
      * Cache handler
      *
@@ -45,6 +43,11 @@ class Client
      * @var \Psr\Log\LoggerInterface
      */
     private $oLogger;
+
+    /**
+     * @var string
+     */
+    private $sGiosRestUrl = 'http://api.gios.gov.pl/pjp-api/rest';
 
 
     /**
@@ -63,6 +66,19 @@ class Client
     public function __debugInfo(): array
     {
         return ['Top secret'];
+    }
+
+    public function getCacheAdapter()
+    {
+        return $this->oCacheAdapter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGiosRestUrl()
+    {
+        return $this->sGiosRestUrl;
     }
 
     /**
@@ -99,6 +115,18 @@ class Client
     {
         $this->oCache = $oCache;
         $this->setCacheAdapter();
+
+        return $this;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return \mrcnpdlk\Weather\Client
+     */
+    public function setGiosRestUrl(string $url): Client
+    {
+        $this->sGiosRestUrl = rtrim($url,'/');
 
         return $this;
     }
