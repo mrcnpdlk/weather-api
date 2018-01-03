@@ -53,6 +53,10 @@ class Station
      * @var \mrcnpdlk\Weather\Model\Gios\City
      */
     public $city;
+    /**
+     * @var float|null
+     */
+    public $distance;
 
     /**
      * Station constructor.
