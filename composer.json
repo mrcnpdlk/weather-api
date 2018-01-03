@@ -1,0 +1,34 @@
+{
+  "name": "mrcnpdlk/weather-api",
+  "description": "Weather API for Poland",
+  "keywords": [
+    "weather",
+    "pogoda"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marcin Pudełek",
+      "email": "marcin@pudelek.org.pl",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=7.0",
+    "ext-curl": "*",
+    "mrcnpdlk/psr16cache-adapter": "~0"
+  },
+  "require-dev": {
+    "mrcnpdlk/monolog": "~0",
+    "phpfastcache/phpfastcache": "~6.0",
+    "phpunit/phpunit": "~6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "mrcnpdlk\\Weather\\": "src/"
+    }
+  }
+}
