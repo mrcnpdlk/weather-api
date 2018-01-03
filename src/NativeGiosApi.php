@@ -25,6 +25,7 @@ use Curl\Curl;
 use mrcnpdlk\Weather\Model\GeoPoint;
 use mrcnpdlk\Weather\Model\Gios\Sensor;
 use mrcnpdlk\Weather\Model\Gios\Station;
+use mrcnpdlk\Weather\Model\Gios\StationQualityIndex;
 
 class NativeGiosApi extends NativeApi
 {
@@ -100,6 +101,19 @@ class NativeGiosApi extends NativeApi
         }
 
         return $nearestStation;
+    }
+
+    /**
+     * @param int $stationId
+     *
+     * @return mixed
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getAirQualityIndex(int $stationId)
+    {
+        $res = $this->request(sprintf('%s/%s', 'aqindex/getIndex', $stationId));
+
+        return new StationQualityIndex($res);
     }
 
     /**
