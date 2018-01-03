@@ -23,6 +23,7 @@ namespace mrcnpdlk\Weather;
 
 use Curl\Curl;
 use mrcnpdlk\Weather\Model\GeoPoint;
+use mrcnpdlk\Weather\Model\Gios\Sensor;
 use mrcnpdlk\Weather\Model\Gios\Station;
 
 class NativeGiosApi extends NativeApi
@@ -101,6 +102,25 @@ class NativeGiosApi extends NativeApi
         return $nearestStation;
     }
 
+    /**
+     * @param int $stationId
+     *
+     * @return array|\mrcnpdlk\Weather\Model\Gios\Sensor[]
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getSensorsForStation(int $stationId): array
+    {
+        /**
+         * @var \mrcnpdlk\Weather\Model\Gios\Sensor[] $answer
+         */
+        $answer = [];
+        $tList  = $this->request(sprintf('%s/%s', 'station/sensors', $stationId));
+        foreach ($tList as $item) {
+            $answer[] = new Sensor($item);
+        }
+
+        return $answer;
+    }
 
     /**
      * @param string $suffix
