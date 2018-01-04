@@ -52,12 +52,16 @@ class GeoPoint
      *
      * @return float Distance in meters between points
      */
-    public function getDistance(GeoPoint $refPoint)
+    public function getDistance(GeoPoint $refPoint): float
     {
-        $oSelfPoint = new Coordinate($this->lat, $this->lon);
-        $oRefPoint  = new Coordinate($refPoint->lat, $refPoint->lon);
-        $calculator = new Vincenty();
+        try {
+            $oSelfPoint = new Coordinate($this->lat, $this->lon);
+            $oRefPoint  = new Coordinate($refPoint->lat, $refPoint->lon);
+            $calculator = new Vincenty();
 
-        return $calculator->getDistance($oSelfPoint, $oRefPoint);
+            return $calculator->getDistance($oSelfPoint, $oRefPoint);
+        } catch (\Exception $e) {
+            
+        }
     }
 }

@@ -68,7 +68,10 @@ class Client
         return ['Top secret'];
     }
 
-    public function getCacheAdapter()
+    /**
+     * @return \mrcnpdlk\Psr16Cache\Adapter
+     */
+    public function getCacheAdapter(): Adapter
     {
         return $this->oCacheAdapter;
     }
@@ -76,7 +79,7 @@ class Client
     /**
      * @return string
      */
-    public function getGiosRestUrl()
+    public function getGiosRestUrl(): string
     {
         return $this->sGiosRestUrl;
     }

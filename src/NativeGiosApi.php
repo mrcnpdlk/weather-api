@@ -22,6 +22,7 @@ namespace mrcnpdlk\Weather;
 
 
 use Curl\Curl;
+use mrcnpdlk\Weather\Client;
 use mrcnpdlk\Weather\Model\GeoPoint;
 use mrcnpdlk\Weather\Model\Gios\Data;
 use mrcnpdlk\Weather\Model\Gios\Sensor;
@@ -48,7 +49,7 @@ class NativeGiosApi extends NativeApi
      *
      * @param \mrcnpdlk\Weather\Client $oClient
      */
-    protected function __construct(\mrcnpdlk\Weather\Client $oClient)
+    protected function __construct(Client $oClient)
     {
         parent::__construct($oClient);
         $this->oLogger       = $oClient->getLogger();
@@ -62,10 +63,11 @@ class NativeGiosApi extends NativeApi
      * @return \mrcnpdlk\Weather\Model\Gios\Station[]
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function findAll()
+    public function findAll(): array
     {
         /**
          * @var \mrcnpdlk\Weather\Model\Gios\Station[] $answer
+         * @var \stdClass[]                            $tList
          */
         $answer = [];
         $tList  = $this->request('station/findAll');
@@ -129,7 +131,7 @@ class NativeGiosApi extends NativeApi
      * @return \mrcnpdlk\Weather\Model\Gios\Data
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function getSensorData(int $sensorId)
+    public function getSensorData(int $sensorId): Data
     {
         $res = $this->request(sprintf('%s/%s', 'data/getData', $sensorId));
 
@@ -148,6 +150,7 @@ class NativeGiosApi extends NativeApi
     {
         /**
          * @var \mrcnpdlk\Weather\Model\Gios\Sensor[] $answer
+         * @var \stdClass[]                           $tList
          */
         $answer = [];
         $tList  = $this->request(sprintf('%s/%s', 'station/sensors', $stationId));
@@ -167,11 +170,10 @@ class NativeGiosApi extends NativeApi
     private function request(string $suffix)
     {
         try {
-            $self = $this;
-            $url  = sprintf('%s/%s', $this->apiUrl, ltrim($suffix, '/'));
+            $url = sprintf('%s/%s', $this->apiUrl, ltrim($suffix, '/'));
             $this->oLogger->debug(sprintf('REQ: %s', $suffix));
             $resp = $this->oCacheAdapter->useCache(
-                function () use ($self, $url) {
+                function () use ($url) {
                     $oCurl = new Curl();
                     $oCurl->get($url);
 
@@ -184,7 +186,7 @@ class NativeGiosApi extends NativeApi
                 [__METHOD__, $suffix],
                 600
             );
-            $this->oLogger->debug(sprintf('RESP: %s, type is %s', $suffix, gettype($resp)));
+            $this->oLogger->debug(sprintf('RESP: %s, type is %s', $suffix, \gettype($resp)));
 
             return $resp;
         } catch (\Exception $e) {

@@ -58,7 +58,7 @@ abstract class NativeApi
      */
     public static function getInstance()
     {
-        if (!isset(static::$instance)) {
+        if (null === static::$instance) {
             throw new Exception(sprintf('First call CREATE method!'));
         }
 
