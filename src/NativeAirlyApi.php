@@ -77,7 +77,19 @@ class NativeAirlyApi extends NativeApi
         ]);
 
         return new Station(json_decode($res));
+    }
 
+    /**
+     * @param int $stationId
+     *
+     * @return \mrcnpdlk\Weather\NativeModel\Airly\Station
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getStation(int $stationId): Station
+    {
+        $res = $this->request(sprintf('sensors/%s',$stationId));
+
+        return new Station(json_decode($res));
     }
 
     /**
@@ -86,7 +98,7 @@ class NativeAirlyApi extends NativeApi
      * @return mixed
      * @throws \mrcnpdlk\Weather\Exception
      */
-    private function request(string $suffix, array $params)
+    private function request(string $suffix, array $params = [])
     {
         try {
             $url = sprintf('%s/%s', $this->apiUrl, ltrim($suffix, '/'));

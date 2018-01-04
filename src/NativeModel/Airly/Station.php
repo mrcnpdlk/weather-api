@@ -38,15 +38,15 @@ class Station
      */
     public $location;
     /**
-     * @var float
+     * @var float|null
      */
     public $distance;
     /**
-     * @var integer
+     * @var integer|null
      */
     public $airQualityIndex;
     /**
-     * @var integer
+     * @var integer|null
      */
     public $pollutionLevel;
     /**
@@ -78,12 +78,12 @@ class Station
             $this->name            = $oData->name;
             $this->vendor          = $oData->vendor;
             $this->location        = new GeoPoint($oData->location->latitude, $oData->location->longitude);
-            $this->distance        = $oData->distance;
-            $this->airQualityIndex = $oData->airQualityIndex;
-            $this->pollutionLevel  = $oData->pollutionLevel;
-            $this->pm10            = $oData->pm10;
-            $this->pm25            = $oData->pm25;
-            $this->measurementTime = Carbon::parse($oData->measurementTime)->format('Y-m-d H:i:s');
+            $this->distance        = $oData->distance ?? null;
+            $this->airQualityIndex = $oData->airQualityIndex ?? null;
+            $this->pollutionLevel  = $oData->pollutionLevel ?? null;
+            $this->pm10            = $oData->pm10 ?? null;
+            $this->pm25            = $oData->pm25 ?? null;
+            $this->measurementTime = isset($oData->measurementTime) ? Carbon::parse($oData->measurementTime)->format('Y-m-d H:i:s') : null;
             $this->address         = new Address($oData->address);
         }
     }
