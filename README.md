@@ -58,7 +58,7 @@ $oInstanceLogger->pushHandler(new \Monolog\Handler\ErrorLogHandler(
 ```
 
 ### GIOS Authentication
-GIOS (Główny Inspektorat Ochrony Środowiska) provide [API](http://powietrze.gios.gov.pl/pjp/content/api) without any authentication.
+GIOS (Chief Inspectorate of Environmental Protection - Główny Inspektorat Ochrony Środowiska) provide [API](http://powietrze.gios.gov.pl/pjp/content/api) without any authentication.
 
 ## Example methods
 
