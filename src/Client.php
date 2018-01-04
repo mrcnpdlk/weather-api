@@ -48,6 +48,14 @@ class Client
      * @var string
      */
     private $sGiosRestUrl = 'http://api.gios.gov.pl/pjp-api/rest';
+    /**
+     * @var string
+     */
+    private $sAirlyRestUrl = 'https://airapi.airly.eu/v1';
+    /**
+     * @var string
+     */
+    private $sAirlyToken;
 
 
     /**
@@ -66,6 +74,27 @@ class Client
     public function __debugInfo(): array
     {
         return ['Top secret'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAirlyRestUrl(): string
+    {
+        return $this->sAirlyRestUrl;
+    }
+
+    /**
+     * @return string
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getAirlyToken(): string
+    {
+        if (!$this->sAirlyToken) {
+            throw new Exception('Airly token is require but nor set');
+        }
+
+        return $this->sAirlyToken;
     }
 
     /**
@@ -92,6 +121,22 @@ class Client
     public function getLogger(): LoggerInterface
     {
         return $this->oLogger;
+    }
+
+    /**
+     * @param string $token
+     * @param string $url
+     *
+     * @return \mrcnpdlk\Weather\Client
+     */
+    public function setAirlyConfig(string $token, string $url = null): Client
+    {
+        $this->sAirlyToken = $token;
+        if ($url) {
+            $this->sAirlyRestUrl = rtrim($url, '/');
+        }
+
+        return $this;
     }
 
     /**
@@ -129,7 +174,7 @@ class Client
      */
     public function setGiosRestUrl(string $url): Client
     {
-        $this->sGiosRestUrl = rtrim($url,'/');
+        $this->sGiosRestUrl = rtrim($url, '/');
 
         return $this;
     }

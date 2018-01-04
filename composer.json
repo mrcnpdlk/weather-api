@@ -21,7 +21,8 @@
     "ext-curl": "*",
     "mrcnpdlk/psr16cache-adapter": "~0",
     "curl/curl": "^1.8.0",
-    "mjaschen/phpgeo": "^2.0.0"
+    "mjaschen/phpgeo": "^2.0.0",
+    "nesbot/carbon": "^1.22.1"
   },
   "require-dev": {
     "mrcnpdlk/monolog": "~0",
