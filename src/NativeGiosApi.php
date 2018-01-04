@@ -22,7 +22,6 @@ namespace mrcnpdlk\Weather;
 
 
 use Curl\Curl;
-use mrcnpdlk\Weather\Client;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
 use mrcnpdlk\Weather\NativeModel\Gios\Data;
 use mrcnpdlk\Weather\NativeModel\Gios\Sensor;
@@ -79,22 +78,23 @@ class NativeGiosApi extends NativeApi
     }
 
     /**
-     * @param float $lan
-     * @param float $lon
+     * @param float    $lat    Latitude
+     * @param float    $lon    Longitude
+     * @param int|null $radius Max distance in meters
      *
      * @return \mrcnpdlk\Weather\NativeModel\Gios\Station
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function findNearest(float $lan, float $lon): Station
+    public function findNearestStation(float $lat, float $lon, int $radius = null): Station
     {
         /**
          * @var float $distance
          */
-        $distance       = null;
+        $distance       = $radius;
         $nearestStation = null;
         $tAll           = $this->findAll();
         foreach ($tAll as $station) {
-            $delta = $station->location->getDistance(new GeoPoint($lan, $lon));
+            $delta = $station->location->getDistance(new GeoPoint($lat, $lon));
             if ($distance === null) {
                 $distance = $delta;
             }

@@ -61,14 +61,14 @@ class NativeAirlyApi extends NativeApi
     }
 
     /**
-     * @param float $lat    Latitude
-     * @param float $lon    Longitude
-     * @param int   $radius Max distance in meters
+     * @param float    $lat    Latitude
+     * @param float    $lon    Longitude
+     * @param int|null $radius Max distance in meters
      *
      * @return Station
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function getNearestStation(float $lat, float $lon, int $radius): Station
+    public function findNearestStation(float $lat, float $lon, int $radius = null): Station
     {
         $res = $this->request('nearestSensor/measurements', [
             'latitude'    => $lat,
@@ -87,7 +87,7 @@ class NativeAirlyApi extends NativeApi
      */
     public function getStation(int $stationId): Station
     {
-        $res = $this->request(sprintf('sensors/%s',$stationId));
+        $res = $this->request(sprintf('sensors/%s', $stationId));
 
         return new Station(json_decode($res));
     }
@@ -106,6 +106,8 @@ class NativeAirlyApi extends NativeApi
             $resp = $this->oCacheAdapter->useCache(
                 function () use ($url, $params) {
                     $oCurl = new Curl();
+                    $oCurl->setOpt(\CURLOPT_SSL_VERIFYHOST, 2);
+                    $oCurl->setOpt(\CURLOPT_SSL_VERIFYPEER, false);
                     $oCurl->setHeader('apikey', $this->apiToken);
                     $oCurl->get($url, $params);
 
