@@ -18,7 +18,7 @@
  * Time: 23:59
  */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 
 class StationQualityIndex
@@ -30,35 +30,35 @@ class StationQualityIndex
      */
     public $id;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $st;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $so2;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $no2;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $co;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $pm10;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $pm25;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $o3;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $c6h6;
 

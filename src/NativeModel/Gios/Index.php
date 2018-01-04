@@ -18,7 +18,7 @@
  * Time: 00:02
  */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 
 class Index
@@ -32,7 +32,7 @@ class Index
      */
     public $sourceDataDate;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
      */
     public $level;
 

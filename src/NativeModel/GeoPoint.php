@@ -18,7 +18,7 @@
  * Time: 22:15
  */
 
-namespace mrcnpdlk\Weather\Model;
+namespace mrcnpdlk\Weather\NativeModel;
 
 
 use Location\Coordinate;
@@ -48,7 +48,7 @@ class GeoPoint
     }
 
     /**
-     * @param \mrcnpdlk\Weather\Model\GeoPoint $refPoint
+     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $refPoint
      *
      * @return float Distance in meters between points
      */

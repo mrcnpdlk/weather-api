@@ -15,48 +15,42 @@
 /**
  * Created by Marcin.
  * Date: 03.01.2018
- * Time: 23:25
+ * Time: 22:19
  */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
-
-class Sensor
+/**
+ * Class City
+ *
+ * @package mrcnpdlk\Weather\NativeModel\Gios
+ */
+class City
 {
     /**
      * @var integer
      */
     public $id;
     /**
-     * @var integer
-     */
-    public $stationId;
-    /**
      * @var string
      */
-    public $dateStart;
+    public $name;
     /**
-     * @var string
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\Commune
      */
-    public $dateEnd;
-    /**
-     * @var \mrcnpdlk\Weather\Model\Gios\SensorParam
-     */
-    public $param;
+    public $commune;
 
     /**
-     * Sensor constructor.
+     * City constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->id        = $oData->id;
-            $this->stationId = $oData->stationId;
-            $this->dateStart = $oData->sensorDateStart;
-            $this->dateEnd   = $oData->sensorDateEnd;
-            $this->param     = new SensorParam($oData->param);
+            $this->id      = $oData->id;
+            $this->name    = $oData->name;
+            $this->commune = new Commune($oData->commune);
         }
     }
 }

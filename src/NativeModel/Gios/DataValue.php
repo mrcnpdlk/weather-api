@@ -15,39 +15,38 @@
 /**
  * Created by Marcin.
  * Date: 04.01.2018
- * Time: 00:03
+ * Time: 00:56
  */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 /**
- * Class IndexLevel
+ * Class DataValue
  *
- * @package mrcnpdlk\Weather\Model\Gios
+ * @package mrcnpdlk\Weather\NativeModel\Gios
  */
-class IndexLevel
+class DataValue
 {
-    /**
-     * Level ID (0-5)
-     *
-     * @var integer
-     */
-    public $id;
     /**
      * @var string
      */
-    public $name;
+    public $date;
 
     /**
-     * IndexLevel constructor.
+     * @var float
+     */
+    public $value;
+
+    /**
+     * DataValue constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->id   = $oData->id;
-            $this->name = $oData->indexLevelName;
+            $this->date  = $oData->date;
+            $this->value = $oData->value;
         }
     }
 }

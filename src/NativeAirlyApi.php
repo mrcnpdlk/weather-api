@@ -17,7 +17,7 @@ namespace mrcnpdlk\Weather;
 
 
 use Curl\Curl;
-use mrcnpdlk\Weather\Model\Airly\Station;
+use mrcnpdlk\Weather\NativeModel\Airly\Station;
 
 /**
  * Class NativeAirlyApi

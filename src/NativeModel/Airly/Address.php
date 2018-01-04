@@ -12,45 +12,44 @@
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  */
 
-/**
- * Created by Marcin.
- * Date: 03.01.2018
- * Time: 22:20
- */
-
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Airly;
 
 /**
- * Class Commune
+ * Class Address
  *
- * @package mrcnpdlk\Weather\Model\Gios
+ * @package mrcnpdlk\Weather\NativeModel\Airly
  */
-class Commune
+class Address
 {
     /**
      * @var string
      */
-    public $name;
+    public $streetNumber;
     /**
      * @var string
      */
-    public $districtName;
+    public $route;
     /**
      * @var string
      */
-    public $provinceName;
+    public $locality;
+    /**
+     * @var string
+     */
+    public $country;
 
     /**
-     * Commune constructor.
+     * Address constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->name         = $oData->communeName;
-            $this->districtName = $oData->districtName;
-            $this->provinceName = $oData->provinceName;
+            $this->streetNumber = $oData->streetNumber;
+            $this->route        = $oData->route;
+            $this->locality     = $oData->locality;
+            $this->country      = $oData->country;
         }
     }
 }

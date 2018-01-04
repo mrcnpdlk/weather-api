@@ -18,10 +18,10 @@
  * Time: 22:08
  */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 
-use mrcnpdlk\Weather\Model\GeoPoint;
+use mrcnpdlk\Weather\NativeModel\GeoPoint;
 
 class Station
 {
@@ -42,7 +42,7 @@ class Station
      */
     public $dateEnd;
     /**
-     * @var \mrcnpdlk\Weather\Model\GeoPoint
+     * @var \mrcnpdlk\Weather\NativeModel\GeoPoint
      */
     public $location;
     /**
@@ -50,7 +50,7 @@ class Station
      */
     public $addressStreet;
     /**
-     * @var \mrcnpdlk\Weather\Model\Gios\City
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\City
      */
     public $city;
     /**

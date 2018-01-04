@@ -23,11 +23,11 @@ namespace mrcnpdlk\Weather;
 
 use Curl\Curl;
 use mrcnpdlk\Weather\Client;
-use mrcnpdlk\Weather\Model\GeoPoint;
-use mrcnpdlk\Weather\Model\Gios\Data;
-use mrcnpdlk\Weather\Model\Gios\Sensor;
-use mrcnpdlk\Weather\Model\Gios\Station;
-use mrcnpdlk\Weather\Model\Gios\StationQualityIndex;
+use mrcnpdlk\Weather\NativeModel\GeoPoint;
+use mrcnpdlk\Weather\NativeModel\Gios\Data;
+use mrcnpdlk\Weather\NativeModel\Gios\Sensor;
+use mrcnpdlk\Weather\NativeModel\Gios\Station;
+use mrcnpdlk\Weather\NativeModel\Gios\StationQualityIndex;
 
 class NativeGiosApi extends NativeApi
 {
@@ -60,14 +60,14 @@ class NativeGiosApi extends NativeApi
     /**
      * Usługa sieciowa udostępniająca listę stacji pomiarowych
      *
-     * @return \mrcnpdlk\Weather\Model\Gios\Station[]
+     * @return \mrcnpdlk\Weather\NativeModel\Gios\Station[]
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function findAll(): array
     {
         /**
-         * @var \mrcnpdlk\Weather\Model\Gios\Station[] $answer
-         * @var \stdClass[]                            $tList
+         * @var \mrcnpdlk\Weather\NativeModel\Gios\Station[] $answer
+         * @var \stdClass[]                                  $tList
          */
         $answer = [];
         $tList  = $this->request('station/findAll');
@@ -82,7 +82,7 @@ class NativeGiosApi extends NativeApi
      * @param float $lan
      * @param float $lon
      *
-     * @return \mrcnpdlk\Weather\Model\Gios\Station
+     * @return \mrcnpdlk\Weather\NativeModel\Gios\Station
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function findNearest(float $lan, float $lon): Station
@@ -128,7 +128,7 @@ class NativeGiosApi extends NativeApi
      *
      * @param int $sensorId
      *
-     * @return \mrcnpdlk\Weather\Model\Gios\Data
+     * @return \mrcnpdlk\Weather\NativeModel\Gios\Data
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function getSensorData(int $sensorId): Data
@@ -143,14 +143,14 @@ class NativeGiosApi extends NativeApi
      *
      * @param int $stationId
      *
-     * @return array|\mrcnpdlk\Weather\Model\Gios\Sensor[]
+     * @return array|\mrcnpdlk\Weather\NativeModel\Gios\Sensor[]
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function getSensorsForStation(int $stationId): array
     {
         /**
-         * @var \mrcnpdlk\Weather\Model\Gios\Sensor[] $answer
-         * @var \stdClass[]                           $tList
+         * @var \mrcnpdlk\Weather\NativeModel\Gios\Sensor[] $answer
+         * @var \stdClass[]                                 $tList
          */
         $answer = [];
         $tList  = $this->request(sprintf('%s/%s', 'station/sensors', $stationId));

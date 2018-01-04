@@ -12,44 +12,45 @@
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  */
 
-namespace mrcnpdlk\Weather\Model\Airly;
+
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 /**
- * Class Address
+ * Class SensorParam
  *
- * @package mrcnpdlk\Weather\Model\Airly
+ * @package mrcnpdlk\Weather\NativeModel\Gios
  */
-class Address
+class SensorParam
 {
     /**
-     * @var string
+     * @var integer
      */
-    public $streetNumber;
+    public $id;
     /**
      * @var string
      */
-    public $route;
+    public $name;
     /**
      * @var string
      */
-    public $locality;
+    public $formula;
     /**
      * @var string
      */
-    public $country;
+    public $code;
 
     /**
-     * Address constructor.
+     * SensorParam constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->streetNumber = $oData->streetNumber;
-            $this->route        = $oData->route;
-            $this->locality     = $oData->locality;
-            $this->country      = $oData->country;
+            $this->id      = $oData->idParam;
+            $this->name    = $oData->paramName;
+            $this->formula = $oData->paramFormula;
+            $this->code    = $oData->paramCode;
         }
     }
 }

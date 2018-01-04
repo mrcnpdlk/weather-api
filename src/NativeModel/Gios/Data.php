@@ -18,7 +18,7 @@
  * Time: 00:56
  */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 
 class Data

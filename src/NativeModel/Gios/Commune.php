@@ -14,39 +14,43 @@
 
 /**
  * Created by Marcin.
- * Date: 04.01.2018
- * Time: 00:56
+ * Date: 03.01.2018
+ * Time: 22:20
  */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 /**
- * Class DataValue
+ * Class Commune
  *
- * @package mrcnpdlk\Weather\Model\Gios
+ * @package mrcnpdlk\Weather\NativeModel\Gios
  */
-class DataValue
+class Commune
 {
     /**
      * @var string
      */
-    public $date;
-
+    public $name;
     /**
-     * @var float
+     * @var string
      */
-    public $value;
+    public $districtName;
+    /**
+     * @var string
+     */
+    public $provinceName;
 
     /**
-     * DataValue constructor.
+     * Commune constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->date  = $oData->date;
-            $this->value = $oData->value;
+            $this->name         = $oData->communeName;
+            $this->districtName = $oData->districtName;
+            $this->provinceName = $oData->provinceName;
         }
     }
 }

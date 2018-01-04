@@ -13,11 +13,11 @@
  */
 
 
-namespace mrcnpdlk\Weather\Model\Airly;
+namespace mrcnpdlk\Weather\NativeModel\Airly;
 
 
 use Carbon\Carbon;
-use mrcnpdlk\Weather\Model\GeoPoint;
+use mrcnpdlk\Weather\NativeModel\GeoPoint;
 
 class Station
 {
@@ -34,7 +34,7 @@ class Station
      */
     public $vendor;
     /**
-     * @var \mrcnpdlk\Weather\Model\GeoPoint
+     * @var \mrcnpdlk\Weather\NativeModel\GeoPoint
      */
     public $location;
     /**
@@ -62,7 +62,7 @@ class Station
      */
     public $measurementTime;
     /**
-     * @var \mrcnpdlk\Weather\Model\Airly\Address
+     * @var \mrcnpdlk\Weather\NativeModel\Airly\Address
      */
     public $address;
 

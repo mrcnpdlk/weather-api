@@ -12,17 +12,24 @@
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  */
 
+/**
+ * Created by Marcin.
+ * Date: 04.01.2018
+ * Time: 00:03
+ */
 
-namespace mrcnpdlk\Weather\Model\Gios;
+namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 /**
- * Class SensorParam
+ * Class IndexLevel
  *
- * @package mrcnpdlk\Weather\Model\Gios
+ * @package mrcnpdlk\Weather\NativeModel\Gios
  */
-class SensorParam
+class IndexLevel
 {
     /**
+     * Level ID (0-5)
+     *
      * @var integer
      */
     public $id;
@@ -30,27 +37,17 @@ class SensorParam
      * @var string
      */
     public $name;
-    /**
-     * @var string
-     */
-    public $formula;
-    /**
-     * @var string
-     */
-    public $code;
 
     /**
-     * SensorParam constructor.
+     * IndexLevel constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->id      = $oData->idParam;
-            $this->name    = $oData->paramName;
-            $this->formula = $oData->paramFormula;
-            $this->code    = $oData->paramCode;
+            $this->id   = $oData->id;
+            $this->name = $oData->indexLevelName;
         }
     }
 }
