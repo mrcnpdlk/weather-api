@@ -23,6 +23,7 @@ namespace mrcnpdlk\Weather;
 
 use Curl\Curl;
 use mrcnpdlk\Weather\Model\GeoPoint;
+use mrcnpdlk\Weather\Model\Gios\Data;
 use mrcnpdlk\Weather\Model\Gios\Sensor;
 use mrcnpdlk\Weather\Model\Gios\Station;
 use mrcnpdlk\Weather\Model\Gios\StationQualityIndex;
@@ -56,6 +57,8 @@ class NativeGiosApi extends NativeApi
     }
 
     /**
+     * Usługa sieciowa udostępniająca listę stacji pomiarowych
+     *
      * @return \mrcnpdlk\Weather\Model\Gios\Station[]
      * @throws \mrcnpdlk\Weather\Exception
      */
@@ -104,6 +107,8 @@ class NativeGiosApi extends NativeApi
     }
 
     /**
+     * Usługa sieciowa udostępniająca indeks jakości powietrza na podstawie podanego identyfikatora stacji pomiarowej
+     *
      * @param int $stationId
      *
      * @return mixed
@@ -117,6 +122,23 @@ class NativeGiosApi extends NativeApi
     }
 
     /**
+     * Usługa sieciowa udostępniająca dane pomiarowe na podstawie podanego identyfikatora stanowiska pomiarowego
+     *
+     * @param int $sensorId
+     *
+     * @return \mrcnpdlk\Weather\Model\Gios\Data
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getSensorData(int $sensorId)
+    {
+        $res = $this->request(sprintf('%s/%s', 'data/getData', $sensorId));
+
+        return new Data($res);
+    }
+
+    /**
+     * Usługa sieciowa udostępniająca listę stanowisk pomiarowych dostępnych na wybranej stacji pomiarowej
+     *
      * @param int $stationId
      *
      * @return array|\mrcnpdlk\Weather\Model\Gios\Sensor[]
