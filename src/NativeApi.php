@@ -29,6 +29,18 @@ abstract class NativeApi
      * @var Client
      */
     protected $oClient;
+    /**
+     * @var \JsonMapper
+     */
+    protected $jsonMapper;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $oLogger;
+    /**
+     * @var \mrcnpdlk\Psr16Cache\Adapter
+     */
+    protected $oCacheAdapter;
 
     /**
      * NativeApi constructor.
@@ -37,7 +49,11 @@ abstract class NativeApi
      */
     protected function __construct(Client $oClient)
     {
-        $this->oClient = $oClient;
+        $this->oClient       = $oClient;
+        $this->jsonMapper    = new \JsonMapper();
+        $this->oLogger       = $oClient->getLogger();
+        $this->oCacheAdapter = $oClient->getCacheAdapter();
+        $this->jsonMapper->setLogger($this->oLogger);
     }
 
     /**

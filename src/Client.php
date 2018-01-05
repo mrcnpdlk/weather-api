@@ -59,11 +59,15 @@ class Client
     /**
      * @var string
      */
-    private $sOWMRestUrl = 'http://api.openweathermap.org/data/2.5/weather';
+    private $sOWMRestUrl = 'http://api.openweathermap.org/data/2.5';
     /**
      * @var string
      */
     private $sOWMToken;
+    /**
+     * @var array
+     */
+    private $sOWMParams = [];
 
 
     /**
@@ -129,6 +133,14 @@ class Client
     public function getLogger(): LoggerInterface
     {
         return $this->oLogger;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOWMParams(): array
+    {
+        return $this->sOWMParams;
     }
 
     /**
@@ -225,16 +237,25 @@ class Client
 
     /**
      * @param string      $token
-     * @param string|null $url
+     * @param string|null $url       Api url, other than default
+     * @param array       $reqParams Params added to request
+     *
+     * @see https://openweathermap.org/current#other
      *
      * @return \mrcnpdlk\Weather\Client
      */
-    public function setOWMConfig(string $token, string $url = null): Client
+    public function setOWMConfig(string $token, array $reqParams = [], string $url = null): Client
     {
         $this->sOWMToken = $token;
         if ($url) {
             $this->sOWMRestUrl = rtrim($url, '/');
         }
+        $paramDef         = [
+            'units' => 'metric',// metric, imperial
+            'lang'  => 'pl', // https://openweathermap.org/current#multi
+            'mode'  => 'json',// default JSON, other values: xml, html
+        ];
+        $this->sOWMParams = array_merge($paramDef, $reqParams);
 
         return $this;
     }

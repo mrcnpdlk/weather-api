@@ -12,6 +12,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/mrcnpdlk/psr16cache-adapter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/netresearch/jsonmapper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/version" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
@@ -59,6 +60,7 @@
           <root url="file://$MODULE_DIR$/vendor/mrcnpdlk/psr16cache-adapter" />
           <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
+          <root url="file://$MODULE_DIR$/vendor/netresearch/jsonmapper" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/version" />
           <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
@@ -102,6 +104,7 @@
           <root url="file://$MODULE_DIR$/vendor/mrcnpdlk/psr16cache-adapter" />
           <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
+          <root url="file://$MODULE_DIR$/vendor/netresearch/jsonmapper" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/version" />
           <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
