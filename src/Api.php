@@ -22,8 +22,14 @@
 namespace mrcnpdlk\Weather;
 
 
+use mrcnpdlk\Weather\NativeModel\GeoPoint;
+
 class Api
 {
+    public function __construct(Client $oClient)
+    {
+    }
+
     public static function getGeocodeFromGoogle($location)
     {
         $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($location) . '&sensor=false';
@@ -32,5 +38,15 @@ class Api
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         return json_decode(curl_exec($ch));
+    }
+
+    public function setLocation(GeoPoint $oGeoPoint)
+    {
+
+    }
+
+    public function setLocationLazy()
+    {
+
     }
 }

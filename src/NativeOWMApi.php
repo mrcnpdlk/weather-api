@@ -88,7 +88,7 @@ class NativeOWMApi extends NativeApi
     /**
      * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint
      *
-     * @return \mrcnpdlk\Weather\NativeModel\OWM\WeatherResponse
+     * @return \mrcnpdlk\Weather\NativeModel\OWM\UVIndexResponse
      * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
