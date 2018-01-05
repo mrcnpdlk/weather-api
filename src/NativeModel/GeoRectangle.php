@@ -56,6 +56,14 @@ class GeoRectangle
     /**
      * @return \mrcnpdlk\Weather\NativeModel\GeoPoint
      */
+    public function getCenter(): GeoPoint
+    {
+        return new GeoPoint(($this->latMin + $this->latMax) / 2, ($this->lonMin + $this->lonMax) / 2);
+    }
+
+    /**
+     * @return \mrcnpdlk\Weather\NativeModel\GeoPoint
+     */
     public function getNE(): GeoPoint
     {
         return new GeoPoint($this->latMax, $this->lonMax);
@@ -98,4 +106,5 @@ class GeoRectangle
     {
         return new GeoPoint($this->latMin, $this->lonMin);
     }
+
 }

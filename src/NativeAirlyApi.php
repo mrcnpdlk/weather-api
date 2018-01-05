@@ -20,6 +20,7 @@ use Curl\Curl;
 use mrcnpdlk\Weather\NativeModel\Airly\MeasurementResponse;
 use mrcnpdlk\Weather\NativeModel\Airly\Station;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
+use mrcnpdlk\Weather\NativeModel\GeoRectangle;
 
 /**
  * Class NativeAirlyApi
@@ -66,18 +67,17 @@ class NativeAirlyApi extends NativeApi
      * Nearest sensor's current detailed measurements
      * /v1/nearestSensor/measurements
      *
-     * @param float    $lat    Latitude
-     * @param float    $lon    Longitude
+     * @param GeoPoint $oPoint Center point
      * @param int|null $radius Max distance in meters
      *
      * @return Station
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function findNearestStation(float $lat, float $lon, int $radius = null): Station
+    public function findNearestStation(GeoPoint $oPoint, int $radius = null): Station
     {
         $res = $this->request('nearestSensor/measurements', [
-            'latitude'    => $lat,
-            'longitude'   => $lon,
+            'latitude'    => $oPoint->lat,
+            'longitude'   => $oPoint->lon,
             'maxDistance' => $radius,
         ]);
 
@@ -90,21 +90,18 @@ class NativeAirlyApi extends NativeApi
      *
      * /v1/sensors/current
      *
-     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint Rectangle center point
-     * @param float                                  $w         Rectangle with in meters
-     * @param float|null                             $h         Rectangle height in meters
+     * @param \mrcnpdlk\Weather\NativeModel\GeoRectangle $oRectangle Rectangle view
      *
      * @return Station[]
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function findStations(GeoPoint $oGeoPoint, float $w, float $h = null): array
+    public function findStations(GeoRectangle $oRectangle): array
     {
         /**
          * @var Station[] $answer
          */
-        $answer     = [];
-        $oRectangle = $oGeoPoint->getRectangle($w, $h);
-        $res        = $this->request('sensors/current', [
+        $answer = [];
+        $res    = $this->request('sensors/current', [
             'southwestLat'  => $oRectangle->getSW()->lat,
             'southwestLong' => $oRectangle->getSW()->lon,
             'northeastLat'  => $oRectangle->getNE()->lat,
@@ -113,7 +110,7 @@ class NativeAirlyApi extends NativeApi
 
         foreach ((array)json_decode($res) as $item) {
             $oStation           = new Station($item);
-            $oStation->distance = $oStation->location->getDistance($oGeoPoint);
+            $oStation->distance = $oStation->location->getDistance($oRectangle->getCenter());
             $answer[]           = $oStation;
         }
 
@@ -130,21 +127,18 @@ class NativeAirlyApi extends NativeApi
      *
      * /v1/sensorsWithWios/current
      *
-     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint Rectangle center point
-     * @param float                                  $w         Rectangle with in meters
-     * @param float|null                             $h         Rectangle height in meters
+     * @param \mrcnpdlk\Weather\NativeModel\GeoRectangle $oRectangle Rectangle view
      *
      * @return Station[]
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function findStationsWithWios(GeoPoint $oGeoPoint, float $w, float $h = null): array
+    public function findStationsWithWios(GeoRectangle $oRectangle): array
     {
         /**
          * @var Station[] $answer
          */
-        $answer     = [];
-        $oRectangle = $oGeoPoint->getRectangle($w, $h);
-        $res        = $this->request('sensorsWithWios/current', [
+        $answer = [];
+        $res    = $this->request('sensorsWithWios/current', [
             'southwestLat'  => $oRectangle->getSW()->lat,
             'southwestLong' => $oRectangle->getSW()->lon,
             'northeastLat'  => $oRectangle->getNE()->lat,
@@ -153,7 +147,7 @@ class NativeAirlyApi extends NativeApi
 
         foreach ((array)json_decode($res) as $item) {
             $oStation           = new Station($item);
-            $oStation->distance = $oStation->location->getDistance($oGeoPoint);
+            $oStation->distance = $oStation->location->getDistance($oRectangle->getCenter());
             $answer[]           = $oStation;
         }
 

@@ -23,6 +23,7 @@ namespace mrcnpdlk\Weather;
 
 use Curl\Curl;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
+use mrcnpdlk\Weather\NativeModel\GeoRectangle;
 use mrcnpdlk\Weather\NativeModel\Gios\Data;
 use mrcnpdlk\Weather\NativeModel\Gios\Sensor;
 use mrcnpdlk\Weather\NativeModel\Gios\Station;
@@ -78,14 +79,13 @@ class NativeGiosApi extends NativeApi
     }
 
     /**
-     * @param float    $lat    Latitude
-     * @param float    $lon    Longitude
+     * @param GeoPoint $oPoint Center point coordinates
      * @param int|null $radius Max distance in meters
      *
      * @return \mrcnpdlk\Weather\NativeModel\Gios\Station
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function findNearestStation(float $lat, float $lon, int $radius = null): Station
+    public function findNearestStation(GeoPoint $oPoint, int $radius = null): Station
     {
         /**
          * @var float $distance
@@ -94,7 +94,7 @@ class NativeGiosApi extends NativeApi
         $nearestStation = null;
         $tAll           = $this->findAll();
         foreach ($tAll as $station) {
-            $delta = $station->location->getDistance(new GeoPoint($lat, $lon));
+            $delta = $station->location->getDistance($oPoint);
             if ($distance === null) {
                 $distance = $delta;
             }
@@ -106,6 +106,29 @@ class NativeGiosApi extends NativeApi
         }
 
         return $nearestStation;
+    }
+
+    /**
+     * @param \mrcnpdlk\Weather\NativeModel\GeoRectangle $oRectangle
+     *
+     * @return array
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function findStations(GeoRectangle $oRectangle): array
+    {
+        /**
+         * @var Station[] $answer
+         */
+        $answer = [];
+        $tAll   = $this->findAll();
+        foreach ($tAll as $station) {
+            if ($oRectangle->getPolygon()->contains($station->location->getCoordinate())) {
+                $station->distance = $station->location->getDistance($oRectangle->getCenter());
+                $answer[]          = $station;
+            }
+        }
+
+        return $answer;
     }
 
     /**
