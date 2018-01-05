@@ -117,6 +117,10 @@ class NativeAirlyApi extends NativeApi
             $answer[]           = $oStation;
         }
 
+        usort($answer, function (Station $a, Station $b) {
+            return $a->distance <=> $b->distance;
+        });
+
         return $answer;
     }
 
@@ -152,6 +156,10 @@ class NativeAirlyApi extends NativeApi
             $oStation->distance = $oStation->location->getDistance($oGeoPoint);
             $answer[]           = $oStation;
         }
+
+        usort($answer, function (Station $a, Station $b) {
+            return $a->distance <=> $b->distance;
+        });
 
         return $answer;
     }
@@ -211,7 +219,7 @@ class NativeAirlyApi extends NativeApi
 
                     return $oCurl->response;
                 },
-                [__METHOD__, $suffix],
+                [__METHOD__, $suffix, $params],
                 600
             );
             $this->oLogger->debug(sprintf('RESP: %s, type is %s', $suffix, \gettype($resp)));
