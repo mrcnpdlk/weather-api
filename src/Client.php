@@ -56,6 +56,14 @@ class Client
      * @var string
      */
     private $sAirlyToken;
+    /**
+     * @var string
+     */
+    private $sOWMRestUrl = 'http://api.openweathermap.org/data/2.5/weather';
+    /**
+     * @var string
+     */
+    private $sOWMToken;
 
 
     /**
@@ -121,6 +129,27 @@ class Client
     public function getLogger(): LoggerInterface
     {
         return $this->oLogger;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOWMRestUrl(): string
+    {
+        return $this->sOWMRestUrl;
+    }
+
+    /**
+     * @return string
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getOWMToken(): string
+    {
+        if (!$this->sOWMToken) {
+            throw new Exception('OWM token is require but nor set');
+        }
+
+        return $this->sOWMToken;
     }
 
     /**
@@ -190,6 +219,22 @@ class Client
     {
         $this->oLogger = $oLogger ?: new NullLogger();
         $this->setCacheAdapter();
+
+        return $this;
+    }
+
+    /**
+     * @param string      $token
+     * @param string|null $url
+     *
+     * @return \mrcnpdlk\Weather\Client
+     */
+    public function setOWMConfig(string $token, string $url = null): Client
+    {
+        $this->sOWMToken = $token;
+        if ($url) {
+            $this->sOWMRestUrl = rtrim($url, '/');
+        }
 
         return $this;
     }
