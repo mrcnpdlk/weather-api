@@ -30,19 +30,9 @@ class MeasurementResponse
      * @var \mrcnpdlk\Weather\NativeModel\Airly\Measurement[]
      */
     public $history = [];
-
     /**
-     * Measurement constructor.
-     *
-     * @param \stdClass|null $oData
+     * @var \mrcnpdlk\Weather\NativeModel\Airly\Measurement[]
      */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->currentMeasurements = $oData->currentMeasurements ?? null;
-            foreach ($oData->history ?? [] as $item) {
-                $this->history[] = new Measurement($item);
-            }
-        }
-    }
+    public $forecast;
+
 }

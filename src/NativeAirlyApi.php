@@ -31,14 +31,6 @@ use mrcnpdlk\Weather\NativeModel\GeoRectangle;
 class NativeAirlyApi extends NativeApi
 {
     /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $oLogger;
-    /**
-     * @var \mrcnpdlk\Psr16Cache\Adapter
-     */
-    private $oCacheAdapter;
-    /**
      * @var string
      */
     private $apiUrl;
@@ -57,10 +49,8 @@ class NativeAirlyApi extends NativeApi
     protected function __construct(Client $oClient)
     {
         parent::__construct($oClient);
-        $this->oLogger       = $oClient->getLogger();
-        $this->oCacheAdapter = $oClient->getCacheAdapter();
-        $this->apiUrl        = $oClient->getAirlyRestUrl();
-        $this->apiToken      = $oClient->getAirlyToken();
+        $this->apiUrl   = $oClient->getAirlyRestUrl();
+        $this->apiToken = $oClient->getAirlyToken();
     }
 
     /**
@@ -75,13 +65,17 @@ class NativeAirlyApi extends NativeApi
      */
     public function findNearestStation(GeoPoint $oPoint, int $radius = null): Station
     {
-        $res = $this->request('nearestSensor/measurements', [
+        /**
+         * @var Station $answer
+         */
+        $res    = $this->request('nearestSensor/measurements', [
             'latitude'    => $oPoint->lat,
             'longitude'   => $oPoint->lon,
             'maxDistance' => $radius,
         ]);
+        $answer = $this->jsonMapper->map(json_decode($res), new Station());
 
-        return new Station(json_decode($res));
+        return $answer;
     }
 
     /**
@@ -99,26 +93,26 @@ class NativeAirlyApi extends NativeApi
     {
         /**
          * @var Station[] $answer
+         * @var Station[] $tList
          */
-        $answer = [];
-        $res    = $this->request('sensors/current', [
+        $res = $this->request('sensors/current', [
             'southwestLat'  => $oRectangle->getSW()->lat,
             'southwestLong' => $oRectangle->getSW()->lon,
             'northeastLat'  => $oRectangle->getNE()->lat,
             'northeastLong' => $oRectangle->getNE()->lon,
         ]);
 
-        foreach ((array)json_decode($res) as $item) {
-            $oStation           = new Station($item);
-            $oStation->distance = $oStation->location->getDistance($oRectangle->getCenter());
-            $answer[]           = $oStation;
+        $tList = $this->jsonMapper->mapArray((array)json_decode($res), [], Station::class);
+
+        foreach ($tList as $station) {
+            $station->distance = $station->getLocation()->getDistance($oRectangle->getCenter());
         }
 
-        usort($answer, function (Station $a, Station $b) {
+        usort($tList, function (Station $a, Station $b) {
             return $a->distance <=> $b->distance;
         });
 
-        return $answer;
+        return $tList;
     }
 
     /**
@@ -135,40 +129,47 @@ class NativeAirlyApi extends NativeApi
     public function findStationsWithWios(GeoRectangle $oRectangle): array
     {
         /**
-         * @var Station[] $answer
+         * @var Station[] $tList
          */
-        $answer = [];
-        $res    = $this->request('sensorsWithWios/current', [
+        $res = $this->request('sensorsWithWios/current', [
             'southwestLat'  => $oRectangle->getSW()->lat,
             'southwestLong' => $oRectangle->getSW()->lon,
             'northeastLat'  => $oRectangle->getNE()->lat,
             'northeastLong' => $oRectangle->getNE()->lon,
         ]);
 
-        foreach ((array)json_decode($res) as $item) {
-            $oStation           = new Station($item);
-            $oStation->distance = $oStation->location->getDistance($oRectangle->getCenter());
-            $answer[]           = $oStation;
+        $tList = $this->jsonMapper->mapArray((array)json_decode($res), [], Station::class);
+
+        foreach ($tList as $station) {
+            $station->distance = $station->getLocation()->getDistance($oRectangle->getCenter());
         }
 
-        usort($answer, function (Station $a, Station $b) {
+        usort($tList, function (Station $a, Station $b) {
             return $a->distance <=> $b->distance;
         });
 
-        return $answer;
+        return $tList;
     }
 
     /**
      * @param int $stationId
      *
      * @return \mrcnpdlk\Weather\NativeModel\Airly\Station
+     * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function getStation(int $stationId): Station
     {
+        /**
+         * $var string $res
+         *
+         * @var Station $answer
+         */
         $res = $this->request(sprintf('sensors/%s', $stationId));
 
-        return new Station(json_decode($res));
+        $answer = $this->jsonMapper->map(json_decode($res), new Station());
+
+        return $answer;
     }
 
     /**
@@ -178,13 +179,21 @@ class NativeAirlyApi extends NativeApi
      * @param int $stationId
      *
      * @return \mrcnpdlk\Weather\NativeModel\Airly\MeasurementResponse
+     * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function getStationMeasurements(int $stationId): MeasurementResponse
     {
+        /**
+         * $var string $res
+         *
+         * @var MeasurementResponse $answer
+         */
         $res = $this->request('sensor/measurements', ['sensorId' => $stationId]);
 
-        return new MeasurementResponse(json_decode($res));
+        $answer = $this->jsonMapper->map(json_decode($res), new MeasurementResponse());
+
+        return $answer;
     }
 
     /**

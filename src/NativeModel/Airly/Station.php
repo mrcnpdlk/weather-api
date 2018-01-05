@@ -35,7 +35,7 @@ class Station
      */
     public $vendor;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\GeoPoint
+     * @var \mrcnpdlk\Weather\NativeModel\Airly\Location
      */
     public $location;
     /**
@@ -68,24 +68,18 @@ class Station
     public $address;
 
     /**
-     * Station constructor.
-     *
-     * @param \stdClass|null $oData
+     * @return \mrcnpdlk\Weather\NativeModel\GeoPoint
      */
-    public function __construct(\stdClass $oData = null)
+    public function getLocation(): GeoPoint
     {
-        if ($oData) {
-            $this->id              = $oData->id;
-            $this->name            = $oData->name;
-            $this->vendor          = $oData->vendor;
-            $this->location        = new GeoPoint($oData->location->latitude, $oData->location->longitude);
-            $this->distance        = $oData->distance ?? null;
-            $this->airQualityIndex = $oData->airQualityIndex ?? null;
-            $this->pollutionLevel  = $oData->pollutionLevel ?? null;
-            $this->pm10            = $oData->pm10 ?? null;
-            $this->pm25            = $oData->pm25 ?? null;
-            $this->measurementTime = isset($oData->measurementTime) ? Carbon::parse($oData->measurementTime)->format('Y-m-d H:i:s') : null;
-            $this->address         = new Address($oData->address);
-        }
+        return new GeoPoint($this->location->latitude, $this->location->longitude);
+    }
+
+    /**
+     * @param string $time
+     */
+    public function setMeasurementTime(string $time)
+    {
+        $this->measurementTime = $time ? Carbon::parse($time)->format('Y-m-d H:i:s') : null;
     }
 }

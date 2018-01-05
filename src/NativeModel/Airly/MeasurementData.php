@@ -54,23 +54,4 @@ class MeasurementData
      * @var integer|null
      */
     public $pollutionLevel;
-
-    /**
-     * MeasurementData constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->airQualityIndex = $oData->airQualityIndex ?? null;
-            $this->pm1             = $oData->pm1 ?? null;
-            $this->pm25            = $oData->pm25 ?? null;
-            $this->pm10            = $oData->pm10 ?? null;
-            $this->pressure        = $oData->pressure ?? null;
-            $this->humidity        = $oData->humidity ?? null;
-            $this->temperature     = $oData->temperature ?? null;
-            $this->pollutionLevel  = $oData->pollutionLevel ?? null;
-        }
-    }
 }

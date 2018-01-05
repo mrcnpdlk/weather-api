@@ -38,16 +38,18 @@ class Measurement
     public $measurements;
 
     /**
-     * Measurement constructor.
-     *
-     * @param \stdClass|null $oData
+     * @param string $time
      */
-    public function __construct(\stdClass $oData = null)
+    public function setFromDateTime(string $time)
     {
-        if ($oData) {
-            $this->fromDateTime = isset($oData->fromDateTime) ? Carbon::parse($oData->fromDateTime)->format('Y-m-d H:i:s') : null;
-            $this->tillDateTime = isset($oData->tillDateTime) ? Carbon::parse($oData->tillDateTime)->format('Y-m-d H:i:s') : null;
-            $this->measurements = new MeasurementData($oData->measurements);
-        }
+        $this->fromDateTime = $time ? Carbon::parse($time)->format('Y-m-d H:i:s') : null;
+    }
+
+    /**
+     * @param string $time
+     */
+    public function setTillDateTime(string $time)
+    {
+        $this->tillDateTime = $time ? Carbon::parse($time)->format('Y-m-d H:i:s') : null;
     }
 }

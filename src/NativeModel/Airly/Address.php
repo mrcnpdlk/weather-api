@@ -38,19 +38,4 @@ class Address
      * @var string
      */
     public $country;
-
-    /**
-     * Address constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->streetNumber = $oData->streetNumber;
-            $this->route        = $oData->route;
-            $this->locality     = $oData->locality;
-            $this->country      = $oData->country;
-        }
-    }
 }
