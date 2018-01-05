@@ -30,7 +30,7 @@ class Commune
     /**
      * @var string
      */
-    public $name;
+    public $communeName;
     /**
      * @var string
      */
@@ -39,18 +39,4 @@ class Commune
      * @var string
      */
     public $provinceName;
-
-    /**
-     * Commune constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->name         = $oData->communeName;
-            $this->districtName = $oData->districtName;
-            $this->provinceName = $oData->provinceName;
-        }
-    }
 }

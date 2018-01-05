@@ -36,18 +36,5 @@ class IndexLevel
     /**
      * @var string
      */
-    public $name;
-
-    /**
-     * IndexLevel constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->id   = $oData->id;
-            $this->name = $oData->indexLevelName;
-        }
-    }
+    public $indexLevelName;
 }

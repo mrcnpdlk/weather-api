@@ -32,14 +32,6 @@ use mrcnpdlk\Weather\NativeModel\Gios\StationQualityIndex;
 class NativeGiosApi extends NativeApi
 {
     /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $oLogger;
-    /**
-     * @var \mrcnpdlk\Psr16Cache\Adapter
-     */
-    private $oCacheAdapter;
-    /**
      * @var string
      */
     private $apiUrl;
@@ -52,9 +44,7 @@ class NativeGiosApi extends NativeApi
     protected function __construct(Client $oClient)
     {
         parent::__construct($oClient);
-        $this->oLogger       = $oClient->getLogger();
-        $this->oCacheAdapter = $oClient->getCacheAdapter();
-        $this->apiUrl        = $oClient->getGiosRestUrl();
+        $this->apiUrl = $oClient->getGiosRestUrl();
     }
 
     /**
@@ -69,11 +59,8 @@ class NativeGiosApi extends NativeApi
          * @var \mrcnpdlk\Weather\NativeModel\Gios\Station[] $answer
          * @var \stdClass[]                                  $tList
          */
-        $answer = [];
         $tList  = $this->request('station/findAll');
-        foreach ($tList as $item) {
-            $answer[] = new Station($item);
-        }
+        $answer = $this->jsonMapper->mapArray($tList, [], Station::class);
 
         return $answer;
     }
@@ -94,7 +81,7 @@ class NativeGiosApi extends NativeApi
         $nearestStation = null;
         $tAll           = $this->findAll();
         foreach ($tAll as $station) {
-            $delta = $station->location->getDistance($oPoint);
+            $delta = $station->getLocation()->getDistance($oPoint);
             if ($distance === null) {
                 $distance = $delta;
             }
@@ -122,11 +109,15 @@ class NativeGiosApi extends NativeApi
         $answer = [];
         $tAll   = $this->findAll();
         foreach ($tAll as $station) {
-            if ($oRectangle->getPolygon()->contains($station->location->getCoordinate())) {
-                $station->distance = $station->location->getDistance($oRectangle->getCenter());
+            if ($oRectangle->getPolygon()->contains($station->getLocation()->getCoordinate())) {
+                $station->distance = $station->getLocation()->getDistance($oRectangle->getCenter());
                 $answer[]          = $station;
             }
         }
+
+        usort($answer, function (Station $a, Station $b) {
+            return $a->distance <=> $b->distance;
+        });
 
         return $answer;
     }
@@ -137,13 +128,18 @@ class NativeGiosApi extends NativeApi
      * @param int $stationId
      *
      * @return mixed
+     * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function getAirQualityIndex(int $stationId)
     {
-        $res = $this->request(sprintf('%s/%s', 'aqindex/getIndex', $stationId));
+        /**
+         * @var StationQualityIndex $answer
+         */
+        $res    = $this->request(sprintf('%s/%s', 'aqindex/getIndex', $stationId));
+        $answer = $this->jsonMapper->map($res, new StationQualityIndex());
 
-        return new StationQualityIndex($res);
+        return $answer;
     }
 
     /**
@@ -156,9 +152,14 @@ class NativeGiosApi extends NativeApi
      */
     public function getSensorData(int $sensorId): Data
     {
+        /**
+         * @var Data $answer
+         */
         $res = $this->request(sprintf('%s/%s', 'data/getData', $sensorId));
 
-        return new Data($res);
+        $answer = $this->jsonMapper->map($res, new Data());
+
+        return $answer;
     }
 
     /**
@@ -177,9 +178,8 @@ class NativeGiosApi extends NativeApi
          */
         $answer = [];
         $tList  = $this->request(sprintf('%s/%s', 'station/sensors', $stationId));
-        foreach ($tList as $item) {
-            $answer[] = new Sensor($item);
-        }
+
+        $answer = $this->jsonMapper->mapArray($tList, [], Sensor::class);
 
         return $answer;
     }

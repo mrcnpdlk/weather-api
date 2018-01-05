@@ -36,17 +36,4 @@ class DataValue
      * @var float
      */
     public $value;
-
-    /**
-     * DataValue constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->date  = $oData->date;
-            $this->value = $oData->value;
-        }
-    }
 }

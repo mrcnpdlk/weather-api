@@ -39,18 +39,4 @@ class City
      * @var \mrcnpdlk\Weather\NativeModel\Gios\Commune
      */
     public $commune;
-
-    /**
-     * City constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->id      = $oData->id;
-            $this->name    = $oData->name;
-            $this->commune = new Commune($oData->commune);
-        }
-    }
 }

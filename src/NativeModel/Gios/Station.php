@@ -32,7 +32,7 @@ class Station
     /**
      * @var string
      */
-    public $name;
+    public $stationName;
     /**
      * @var string
      */
@@ -42,15 +42,19 @@ class Station
      */
     public $dateEnd;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\GeoPoint
+     * @var float
      */
-    public $location;
+    public $gegrLat;
     /**
-     * @var string
+     * @var float
+     */
+    public $gegrLon;
+    /**
+     * @var string|null
      */
     public $addressStreet;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\City
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\City|null
      */
     public $city;
     /**
@@ -59,21 +63,11 @@ class Station
     public $distance;
 
     /**
-     * Station constructor.
-     *
-     * @param \stdClass|null $oData
+     * @return \mrcnpdlk\Weather\NativeModel\GeoPoint
      */
-    public function __construct(\stdClass $oData = null)
+    public function getLocation(): GeoPoint
     {
-        if ($oData) {
-            $this->id            = $oData->id;
-            $this->name          = $oData->stationName;
-            $this->dateStart     = $oData->dateStart;
-            $this->dateEnd       = $oData->dateEnd;
-            $this->location      = new GeoPoint((float)$oData->gegrLat, (float)$oData->gegrLon);
-            $this->addressStreet = $oData->addressStreet;
-            $this->city          = new City($oData->city);
-
-        }
+        return new GeoPoint($this->gegrLat, $this->gegrLon);
     }
+
 }

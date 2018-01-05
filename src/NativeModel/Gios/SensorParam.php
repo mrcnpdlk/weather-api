@@ -25,32 +25,17 @@ class SensorParam
     /**
      * @var integer
      */
-    public $id;
+    public $idParam;
     /**
      * @var string
      */
-    public $name;
+    public $paramName;
     /**
      * @var string
      */
-    public $formula;
+    public $paramFormula;
     /**
      * @var string
      */
-    public $code;
-
-    /**
-     * SensorParam constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->id      = $oData->idParam;
-            $this->name    = $oData->paramName;
-            $this->formula = $oData->paramFormula;
-            $this->code    = $oData->paramCode;
-        }
-    }
+    public $paramCode;
 }

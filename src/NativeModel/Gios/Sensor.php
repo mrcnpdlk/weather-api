@@ -34,29 +34,13 @@ class Sensor
     /**
      * @var string
      */
-    public $dateStart;
+    public $sensorDateStart;
     /**
-     * @var string
+     * @var string|null
      */
-    public $dateEnd;
+    public $sensorDateEnd;
     /**
      * @var \mrcnpdlk\Weather\NativeModel\Gios\SensorParam
      */
     public $param;
-
-    /**
-     * Sensor constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->id        = $oData->id;
-            $this->stationId = $oData->stationId;
-            $this->dateStart = $oData->sensorDateStart;
-            $this->dateEnd   = $oData->sensorDateEnd;
-            $this->param     = new SensorParam($oData->param);
-        }
-    }
 }

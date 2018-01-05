@@ -30,58 +30,100 @@ class StationQualityIndex
      */
     public $id;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var string|null
      */
-    public $st;
+    public $stCalcDate;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
      */
-    public $so2;
+    public $stIndexLevel;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var string|null
      */
-    public $no2;
+    public $stSourceDataDate;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var string|null
      */
-    public $co;
+    public $so2CalcDate;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
      */
-    public $pm10;
+    public $so2IndexLevel;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var string|null
      */
-    public $pm25;
+    public $so2SourceDataDate;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var string|null
      */
-    public $o3;
+    public $no2CalcDate;
     /**
-     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
      */
-    public $c6h6;
-
+    public $no2IndexLevel;
     /**
-     * StationQualityIndex constructor.
-     *
-     * @param \stdClass|null $oData
+     * @var string|null
      */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->id = $oData->id;
-            foreach (['st', 'so2', 'no2', 'co', 'pm10', 'pm25', 'o3', 'c6hh6'] as $index) {
-                if (isset($oData->{$index . 'IndexLevel'})) {
-                    $this->{$index} = new Index(
-                        $oData->{$index . 'CalcDate'},
-                        $oData->{$index . 'SourceDataDate'},
-                        $oData->{$index . 'IndexLevel'}
-
-                    );
-                }
-            }
-        }
-    }
+    public $no2SourceDataDate;
+    /**
+     * @var string|null
+     */
+    public $coCalcDate;
+    /**
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
+     */
+    public $coIndexLevel;
+    /**
+     * @var string|null
+     */
+    public $coSourceDataDate;
+    /**
+     * @var string|null
+     */
+    public $pm10CalcDate;
+    /**
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
+     */
+    public $pm10IndexLevel;
+    /**
+     * @var string|null
+     */
+    public $pm10SourceDataDate;
+    /**
+     * @var string|null
+     */
+    public $pm25CalcDate;
+    /**
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
+     */
+    public $pm25IndexLevel;
+    /**
+     * @var string|null
+     */
+    public $pm25SourceDataDate;
+    /**
+     * @var string|null
+     */
+    public $o3CalcDate;
+    /**
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
+     */
+    public $o3IndexLevel;
+    /**
+     * @var string|null
+     */
+    public $o3SourceDataDate;
+    /**
+     * @var string|null
+     */
+    public $c6h6CalcDate;
+    /**
+     * @var \mrcnpdlk\Weather\NativeModel\Gios\IndexLevel|null
+     */
+    public $c6h6IndexLevel;
+    /**
+     * @var string|null
+     */
+    public $c6h6SourceDataDate;
 
 }

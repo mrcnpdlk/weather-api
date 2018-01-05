@@ -32,19 +32,4 @@ class Data
      * @var DataValue[]
      */
     public $values = [];
-
-    /**
-     * Data constructor.
-     *
-     * @param \stdClass|null $oData
-     */
-    public function __construct(\stdClass $oData = null)
-    {
-        if ($oData) {
-            $this->key = $oData->key;
-            foreach ($oData->values ?? [] as $value) {
-                $this->values[] = new DataValue($value);
-            }
-        }
-    }
 }
