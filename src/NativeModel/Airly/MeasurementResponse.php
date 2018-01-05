@@ -16,41 +16,33 @@
 namespace mrcnpdlk\Weather\NativeModel\Airly;
 
 /**
- * Class Address
+ * Class MeasurementResponse
  *
  * @package mrcnpdlk\Weather\NativeModel\Airly
  */
-class Address
+class MeasurementResponse
 {
     /**
-     * @var string
+     * @var \mrcnpdlk\Weather\NativeModel\Airly\MeasurementData
      */
-    public $streetNumber;
+    public $currentMeasurements;
     /**
-     * @var string
+     * @var \mrcnpdlk\Weather\NativeModel\Airly\Measurement[]
      */
-    public $route;
-    /**
-     * @var string
-     */
-    public $locality;
-    /**
-     * @var string
-     */
-    public $country;
+    public $history = [];
 
     /**
-     * Address constructor.
+     * Measurement constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->streetNumber = $oData->streetNumber;
-            $this->route        = $oData->route;
-            $this->locality     = $oData->locality;
-            $this->country      = $oData->country;
+            $this->currentMeasurements = $oData->currentMeasurements ?? null;
+            foreach ($oData->history ?? [] as $item) {
+                $this->history[] = new Measurement($item);
+            }
         }
     }
 }

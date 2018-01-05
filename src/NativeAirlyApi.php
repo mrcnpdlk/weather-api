@@ -17,7 +17,9 @@ namespace mrcnpdlk\Weather;
 
 
 use Curl\Curl;
+use mrcnpdlk\Weather\NativeModel\Airly\MeasurementResponse;
 use mrcnpdlk\Weather\NativeModel\Airly\Station;
+use mrcnpdlk\Weather\NativeModel\GeoPoint;
 
 /**
  * Class NativeAirlyApi
@@ -61,6 +63,9 @@ class NativeAirlyApi extends NativeApi
     }
 
     /**
+     * Nearest sensor's current detailed measurements
+     * /v1/nearestSensor/measurements
+     *
      * @param float    $lat    Latitude
      * @param float    $lon    Longitude
      * @param int|null $radius Max distance in meters
@@ -80,6 +85,78 @@ class NativeAirlyApi extends NativeApi
     }
 
     /**
+     * Current sensors list for a map region
+     * List of sensors IDs with coordinates, addresses and current pollution level
+     *
+     * /v1/sensors/current
+     *
+     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint Rectangle center point
+     * @param float                                  $w         Rectangle with in meters
+     * @param float|null                             $h         Rectangle height in meters
+     *
+     * @return Station[]
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function findStations(GeoPoint $oGeoPoint, float $w, float $h = null): array
+    {
+        /**
+         * @var Station[] $answer
+         */
+        $answer     = [];
+        $oRectangle = $oGeoPoint->getRectangle($w, $h);
+        $res        = $this->request('sensors/current', [
+            'southwestLat'  => $oRectangle->getSW()->lat,
+            'southwestLong' => $oRectangle->getSW()->lon,
+            'northeastLat'  => $oRectangle->getNE()->lat,
+            'northeastLong' => $oRectangle->getNE()->lon,
+        ]);
+
+        foreach ((array)json_decode($res) as $item) {
+            $oStation           = new Station($item);
+            $oStation->distance = $oStation->location->getDistance($oGeoPoint);
+            $answer[]           = $oStation;
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Current sensors list (Airly's and official monitoring stations from http://powietrze.gios.gov.pl) for a map region
+     * List of sensors IDs with coordinates, addresses and current pollution level
+     *
+     * /v1/sensorsWithWios/current
+     *
+     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint Rectangle center point
+     * @param float                                  $w         Rectangle with in meters
+     * @param float|null                             $h         Rectangle height in meters
+     *
+     * @return Station[]
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function findStationsWithWios(GeoPoint $oGeoPoint, float $w, float $h = null): array
+    {
+        /**
+         * @var Station[] $answer
+         */
+        $answer     = [];
+        $oRectangle = $oGeoPoint->getRectangle($w, $h);
+        $res        = $this->request('sensorsWithWios/current', [
+            'southwestLat'  => $oRectangle->getSW()->lat,
+            'southwestLong' => $oRectangle->getSW()->lon,
+            'northeastLat'  => $oRectangle->getNE()->lat,
+            'northeastLong' => $oRectangle->getNE()->lon,
+        ]);
+
+        foreach ((array)json_decode($res) as $item) {
+            $oStation           = new Station($item);
+            $oStation->distance = $oStation->location->getDistance($oGeoPoint);
+            $answer[]           = $oStation;
+        }
+
+        return $answer;
+    }
+
+    /**
      * @param int $stationId
      *
      * @return \mrcnpdlk\Weather\NativeModel\Airly\Station
@@ -93,7 +170,24 @@ class NativeAirlyApi extends NativeApi
     }
 
     /**
+     * Sensor's current detailed measurements and historical pollution level
+     * /v1/sensor/measurements
+     *
+     * @param int $stationId
+     *
+     * @return \mrcnpdlk\Weather\NativeModel\Airly\MeasurementResponse
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getStationMeasurements(int $stationId): MeasurementResponse
+    {
+        $res = $this->request('sensor/measurements', ['sensorId' => $stationId]);
+
+        return new MeasurementResponse(json_decode($res));
+    }
+
+    /**
      * @param string $suffix
+     * @param array  $params Request key-value pair params
      *
      * @return mixed
      * @throws \mrcnpdlk\Weather\Exception
@@ -118,7 +212,7 @@ class NativeAirlyApi extends NativeApi
                     return $oCurl->response;
                 },
                 [__METHOD__, $suffix],
-                1
+                600
             );
             $this->oLogger->debug(sprintf('RESP: %s, type is %s', $suffix, \gettype($resp)));
 

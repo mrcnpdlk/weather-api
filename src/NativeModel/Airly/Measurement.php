@@ -15,42 +15,39 @@
 
 namespace mrcnpdlk\Weather\NativeModel\Airly;
 
+use Carbon\Carbon;
+
 /**
- * Class Address
+ * Class Measurement
  *
  * @package mrcnpdlk\Weather\NativeModel\Airly
  */
-class Address
+class Measurement
 {
     /**
      * @var string
      */
-    public $streetNumber;
+    public $fromDateTime;
     /**
      * @var string
      */
-    public $route;
+    public $tillDateTime;
     /**
-     * @var string
+     * @var \mrcnpdlk\Weather\NativeModel\Airly\MeasurementData
      */
-    public $locality;
-    /**
-     * @var string
-     */
-    public $country;
+    public $measurements;
 
     /**
-     * Address constructor.
+     * Measurement constructor.
      *
      * @param \stdClass|null $oData
      */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
-            $this->streetNumber = $oData->streetNumber;
-            $this->route        = $oData->route;
-            $this->locality     = $oData->locality;
-            $this->country      = $oData->country;
+            $this->fromDateTime = isset($oData->fromDateTime) ? Carbon::parse($oData->fromDateTime)->format('Y-m-d H:i:s') : null;
+            $this->tillDateTime = isset($oData->tillDateTime) ? Carbon::parse($oData->tillDateTime)->format('Y-m-d H:i:s') : null;
+            $this->measurements = new MeasurementData($oData->measurements);
         }
     }
 }

@@ -10,6 +10,7 @@
  * that is bundled with this package in the file LICENSE
  *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
+ *
  */
 
 
