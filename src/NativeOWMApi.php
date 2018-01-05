@@ -18,6 +18,7 @@ namespace mrcnpdlk\Weather;
 
 use Curl\Curl;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
+use mrcnpdlk\Weather\NativeModel\OWM\UVIndexResponse;
 use mrcnpdlk\Weather\NativeModel\OWM\WeatherResponse;
 
 /**
@@ -66,6 +67,10 @@ class NativeOWMApi extends NativeApi
      */
     public function getWeather(GeoPoint $oGeoPoint): WeatherResponse
     {
+        /**
+         * @var string          $res
+         * @var WeatherResponse $oJson
+         */
         $res = $this->request(
             'weather',
             [
@@ -74,14 +79,38 @@ class NativeOWMApi extends NativeApi
             ]
         );
 
-        /**
-         * @var WeatherResponse $oJson
-         */
+
         $oJson = $this->jsonMapper->map(json_decode($res), new WeatherResponse());
 
         return $oJson;
     }
 
+    /**
+     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint
+     *
+     * @return \mrcnpdlk\Weather\NativeModel\OWM\WeatherResponse
+     * @throws \JsonMapper_Exception
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getUVIndex(GeoPoint $oGeoPoint): UVIndexResponse
+    {
+        /**
+         * @var string          $res
+         * @var UVIndexResponse $oJson
+         */
+        $res = $this->request(
+            'uvi',
+            [
+                'lat' => $oGeoPoint->lat,
+                'lon' => $oGeoPoint->lon,
+            ]
+        );
+
+
+        $oJson = $this->jsonMapper->map(json_decode($res), new UVIndexResponse());
+
+        return $oJson;
+    }
 
     /**
      * @param string $suffix
