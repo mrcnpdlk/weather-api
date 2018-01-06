@@ -21,6 +21,7 @@
 namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 
+use mrcnpdlk\Weather\NativeGiosApi;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
 
 class Station
@@ -61,6 +62,16 @@ class Station
      * @var float|null
      */
     public $distance;
+
+    /**
+     * @return StationQualityIndex
+     * @throws \JsonMapper_Exception
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getAirQualityIndex(): StationQualityIndex
+    {
+        return NativeGiosApi::getInstance()->getAirQualityIndex($this->id);
+    }
 
     /**
      * @return \mrcnpdlk\Weather\NativeModel\GeoPoint
