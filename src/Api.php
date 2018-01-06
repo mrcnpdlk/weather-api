@@ -144,6 +144,26 @@ class Api
     }
 
     /**
+     * Get UV index for set day
+     *
+     * @see https://en.wikipedia.org/wiki/Ultraviolet_index
+     * @return float|null
+     */
+    public function getUVIndex()
+    {
+        try {
+            $res = $this->oOWMApi->getUVIndex($this->getLocation(), $this->getDateTime());
+            if ($res) {
+                return $res->value;
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
      * Setting Date for library.
      * If NULL, then NOW and current timezone is set.
      *
@@ -194,6 +214,4 @@ class Api
 
         return $this;
     }
-
-
 }

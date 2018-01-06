@@ -16,6 +16,7 @@
 namespace mrcnpdlk\Weather;
 
 
+use Carbon\Carbon;
 use Curl\Curl;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
 use mrcnpdlk\Weather\NativeModel\OWM\UVIndexResponse;
@@ -30,13 +31,55 @@ use mrcnpdlk\Weather\NativeModel\OWM\WeatherResponse;
 class NativeOWMApi extends NativeApi
 {
     /**
+     * Get UV index for any day
+     *
+     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint
+     * @param \DateTime                              $oDateTime
+     *
+     * @return \mrcnpdlk\Weather\NativeModel\OWM\UVIndexResponse|null
+     * @throws \JsonMapper_Exception
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getUVIndex(GeoPoint $oGeoPoint, \DateTime $oDateTime)
+    {
+        /**
+         * @var string          $res
+         * @var UVIndexResponse $oJson
+         * @var int             $timestamp
+         */
+        // Fix - getting end of the day
+        $timestamp = Carbon::createFromTimestamp($oDateTime->getTimestamp())->endOfDay()->getTimestamp();
+        $res       = $this->request(
+            'uvi/history',
+            [
+                'lat'   => $oGeoPoint->lat,
+                'lon'   => $oGeoPoint->lon,
+                'start' => $timestamp,
+                'end'   => $timestamp,
+            ]
+        );
+        $tRes      = json_decode($res);
+        if (count($tRes)) {
+            $oJson = $this->jsonMapper->map($tRes[0], new UVIndexResponse());
+
+            return $oJson;
+        }
+
+        return null;
+
+
+    }
+
+    /**
+     * Get UV index for current day
+     *
      * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint
      *
      * @return \mrcnpdlk\Weather\NativeModel\OWM\UVIndexResponse
      * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function getUVIndex(GeoPoint $oGeoPoint): UVIndexResponse
+    public function getUVIndexCurrent(GeoPoint $oGeoPoint): UVIndexResponse
     {
         /**
          * @var string          $res
