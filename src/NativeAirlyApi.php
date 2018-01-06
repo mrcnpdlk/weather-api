@@ -31,29 +31,6 @@ use mrcnpdlk\Weather\NativeModel\GeoRectangle;
 class NativeAirlyApi extends NativeApi
 {
     /**
-     * @var string
-     */
-    private $apiUrl;
-    /**
-     * @var string
-     */
-    private $apiToken;
-
-    /**
-     * NativeGiosApi constructor.
-     *
-     * @param \mrcnpdlk\Weather\Client $oClient
-     *
-     * @throws \mrcnpdlk\Weather\Exception
-     */
-    protected function __construct(Client $oClient)
-    {
-        parent::__construct($oClient);
-        $this->apiUrl   = $oClient->getAirlyRestUrl();
-        $this->apiToken = $oClient->getAirlyToken();
-    }
-
-    /**
      * Nearest sensor's current detailed measurements
      * /v1/nearestSensor/measurements
      *
@@ -206,14 +183,14 @@ class NativeAirlyApi extends NativeApi
     private function request(string $suffix, array $params = [])
     {
         try {
-            $url = sprintf('%s/%s', $this->apiUrl, ltrim($suffix, '/'));
+            $url = sprintf('%s/%s', $this->oClient->getAirlyRestUrl(), ltrim($suffix, '/'));
             $this->oLogger->debug(sprintf('REQ: %s', $suffix));
             $resp = $this->oCacheAdapter->useCache(
                 function () use ($url, $params) {
                     $oCurl = new Curl();
                     $oCurl->setOpt(\CURLOPT_SSL_VERIFYHOST, 2);
                     $oCurl->setOpt(\CURLOPT_SSL_VERIFYPEER, false);
-                    $oCurl->setHeader('apikey', $this->apiToken);
+                    $oCurl->setHeader('apikey', $this->oClient->getAirlyToken());
                     $oCurl->get($url, $params);
 
                     if ($oCurl->error) {

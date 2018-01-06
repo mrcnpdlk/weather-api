@@ -45,6 +45,18 @@ class Api
      * @var \DateTime
      */
     private $dateTime;
+    /**
+     * @var NativeOWMApi
+     */
+    private $oOWMApi;
+    /**
+     * @var NativeGiosApi
+     */
+    private $oGiosApi;
+    /**
+     * @var NativeAirlyApi
+     */
+    private $oAirlyApi;
 
     /**
      * Api constructor.
@@ -53,6 +65,9 @@ class Api
      */
     public function __construct(Client $oClient)
     {
+        $this->oOWMApi   = NativeOWMApi::create($oClient);
+        $this->oGiosApi  = NativeGiosApi::create($oClient);
+        $this->oAirlyApi = NativeAirlyApi::create($oClient);
     }
 
     /**

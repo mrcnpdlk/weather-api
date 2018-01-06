@@ -32,22 +32,6 @@ use mrcnpdlk\Weather\NativeModel\Gios\StationQualityIndex;
 class NativeGiosApi extends NativeApi
 {
     /**
-     * @var string
-     */
-    private $apiUrl;
-
-    /**
-     * NativeGiosApi constructor.
-     *
-     * @param \mrcnpdlk\Weather\Client $oClient
-     */
-    protected function __construct(Client $oClient)
-    {
-        parent::__construct($oClient);
-        $this->apiUrl = $oClient->getGiosRestUrl();
-    }
-
-    /**
      * Usługa sieciowa udostępniająca listę stacji pomiarowych
      *
      * @return \mrcnpdlk\Weather\NativeModel\Gios\Station[]
@@ -148,6 +132,7 @@ class NativeGiosApi extends NativeApi
      * @param int $sensorId
      *
      * @return \mrcnpdlk\Weather\NativeModel\Gios\Data
+     * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
     public function getSensorData(int $sensorId): Data
@@ -193,7 +178,7 @@ class NativeGiosApi extends NativeApi
     private function request(string $suffix)
     {
         try {
-            $url = sprintf('%s/%s', $this->apiUrl, ltrim($suffix, '/'));
+            $url = sprintf('%s/%s', $this->oClient->getGiosRestUrl(), ltrim($suffix, '/'));
             $this->oLogger->debug(sprintf('REQ: %s', $suffix));
             $resp = $this->oCacheAdapter->useCache(
                 function () use ($url) {

@@ -30,32 +30,30 @@ use mrcnpdlk\Weather\NativeModel\OWM\WeatherResponse;
 class NativeOWMApi extends NativeApi
 {
     /**
-     * @var string
-     */
-    private $apiUrl;
-    /**
-     * @var string
-     */
-    private $apiToken;
-    /**
-     * @var array
-     */
-    private $apiParams;
-
-    /**
-     * NativeGiosApi constructor.
+     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint
      *
-     * @param \mrcnpdlk\Weather\Client $oClient
-     *
+     * @return \mrcnpdlk\Weather\NativeModel\OWM\UVIndexResponse
+     * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
-    protected function __construct(Client $oClient)
+    public function getUVIndex(GeoPoint $oGeoPoint): UVIndexResponse
     {
-        parent::__construct($oClient);
-        $this->apiUrl    = $oClient->getOWMRestUrl();
-        $this->apiToken  = $oClient->getOWMToken();
-        $this->apiParams = $oClient->getOWMParams();
+        /**
+         * @var string          $res
+         * @var UVIndexResponse $oJson
+         */
+        $res = $this->request(
+            'uvi',
+            [
+                'lat' => $oGeoPoint->lat,
+                'lon' => $oGeoPoint->lon,
+            ]
+        );
 
+
+        $oJson = $this->jsonMapper->map(json_decode($res), new UVIndexResponse());
+
+        return $oJson;
     }
 
     /**
@@ -86,33 +84,6 @@ class NativeOWMApi extends NativeApi
     }
 
     /**
-     * @param \mrcnpdlk\Weather\NativeModel\GeoPoint $oGeoPoint
-     *
-     * @return \mrcnpdlk\Weather\NativeModel\OWM\UVIndexResponse
-     * @throws \JsonMapper_Exception
-     * @throws \mrcnpdlk\Weather\Exception
-     */
-    public function getUVIndex(GeoPoint $oGeoPoint): UVIndexResponse
-    {
-        /**
-         * @var string          $res
-         * @var UVIndexResponse $oJson
-         */
-        $res = $this->request(
-            'uvi',
-            [
-                'lat' => $oGeoPoint->lat,
-                'lon' => $oGeoPoint->lon,
-            ]
-        );
-
-
-        $oJson = $this->jsonMapper->map(json_decode($res), new UVIndexResponse());
-
-        return $oJson;
-    }
-
-    /**
      * @param string $suffix
      * @param array  $params Request key-value pair params
      *
@@ -122,10 +93,10 @@ class NativeOWMApi extends NativeApi
     private function request(string $suffix, array $params = [])
     {
         try {
-            $params          = array_merge($params, $this->apiParams);
-            $params['appid'] = $this->apiToken;
+            $params          = array_merge($params, $this->oClient->getOWMParams());
+            $params['appid'] = $this->oClient->getOWMToken();
 
-            $url = sprintf('%s/%s', $this->apiUrl, ltrim($suffix, '/'));
+            $url = sprintf('%s/%s', $this->oClient->getOWMRestUrl(), ltrim($suffix, '/'));
             $this->oLogger->debug(sprintf('REQ: %s', $suffix));
             $resp = $this->oCacheAdapter->useCache(
                 function () use ($url, $params) {
