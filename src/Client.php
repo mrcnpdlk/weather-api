@@ -103,6 +103,7 @@ class Client
     public function getAirlyToken(): string
     {
         if (!$this->sAirlyToken) {
+            $this->getLogger()->error('Airly token is require but nor set');
             throw new Exception('Airly token is require but nor set');
         }
 
@@ -158,6 +159,7 @@ class Client
     public function getOWMToken(): string
     {
         if (!$this->sOWMToken) {
+            $this->getLogger()->error('OWM token is require but nor set');
             throw new Exception('OWM token is require but nor set');
         }
 
