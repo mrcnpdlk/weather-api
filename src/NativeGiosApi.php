@@ -111,11 +111,11 @@ class NativeGiosApi extends NativeApi
      *
      * @param int $stationId
      *
-     * @return mixed
+     * @return StationQualityIndex
      * @throws \JsonMapper_Exception
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function getAirQualityIndex(int $stationId)
+    public function getAirQualityIndex(int $stationId): StationQualityIndex
     {
         /**
          * @var StationQualityIndex $answer
