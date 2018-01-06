@@ -57,25 +57,30 @@ class Api
 
     /**
      * @return \mrcnpdlk\Weather\Model\Address
+     * @throws \mrcnpdlk\Weather\Exception
      */
     public function getAddress(): Address
     {
-        if (null === $this->address) {
-            $oCurl = new \Curl\Curl();
-            $oCurl->get('http://nominatim.openstreetmap.org/reverse.php', [
-                'lat'    => $this->getLocation()->lat,
-                'lon'    => $this->getLocation()->lon,
-                'format' => 'json',
-            ]);
-            if ($oCurl->error) {
-                throw new \RuntimeException(sprintf('Cannot revers geocode. Reason: %s', $oCurl->error_message));
+        try {
+            if (null === $this->address) {
+                $oCurl = new Curl();
+                $oCurl->get('http://nominatim.openstreetmap.org/reverse.php', [
+                    'lat'    => $this->getLocation()->lat,
+                    'lon'    => $this->getLocation()->lon,
+                    'format' => 'json',
+                ]);
+                if ($oCurl->error) {
+                    throw new \RuntimeException(sprintf('Cannot revers geocode. Reason: %s', $oCurl->error_message));
+                }
+
+                $resAddress    = json_decode($oCurl->response);
+                $this->address = new Address($resAddress->address ?? null);
             }
 
-            $resAddress    = json_decode($oCurl->response);
-            $this->address = new Address($resAddress->address ?? null);
+            return $this->address;
+        } catch (\Exception $e) {
+            throw new Exception('Address is unavailable for set location', 1, $e);
         }
-
-        return $this->address;
     }
 
     /**
@@ -92,6 +97,7 @@ class Api
 
     /**
      * @return \mrcnpdlk\Weather\NativeModel\GeoPoint
+     * @throws \mrcnpdlk\Weather\Exception
      */
     public function getLocation(): GeoPoint
     {
@@ -106,8 +112,9 @@ class Api
      * Get timing for Sun
      *
      * @return \mrcnpdlk\Weather\Model\SunSchedule
+     * @throws \mrcnpdlk\Weather\Exception
      */
-    public function getSunSchedule()
+    public function getSunSchedule(): SunSchedule
     {
         if (null === $this->sunSchedule) {
             $res               = date_sun_info(
@@ -141,26 +148,31 @@ class Api
      * @param \mrcnpdlk\Weather\NativeModel\GeoPoint|null $oGeoPoint
      *
      * @return $this
+     * @throws \mrcnpdlk\Weather\Exception
      */
     public function setLocation(GeoPoint $oGeoPoint = null)
     {
         if ($oGeoPoint) {
             $this->location = $oGeoPoint;
         } else { // get location by Public IP  - we use 2 APIs for assurance
-            $oCurl = new Curl();
-            $oCurl->get('http://freegeoip.net/json/');  // faster API - ca 200 ms
+            try {
+                $oCurl = new Curl();
+                $oCurl->get('http://freegeoip.net/json/');  // faster API - ca 200 ms
 
-            if ($oCurl->error) {
-                $oCurl->get('https://ipapi.co/json');  // slower API - ca 500 ms
                 if ($oCurl->error) {
-                    throw new \RuntimeException(sprintf('Cannot find location via public IP. Reason: %s', $oCurl->error_message));
-                }
+                    $oCurl->get('https://ipapi.co/json');  // slower API - ca 500 ms
+                    if ($oCurl->error) {
+                        throw new \RuntimeException(sprintf('Cannot find location via public IP. Reason: %s', $oCurl->error_message));
+                    }
 
-                $resIpAPi       = json_decode($oCurl->response);
-                $this->location = new GeoPoint($resIpAPi->latitude, $resIpAPi->longitude);
-            } else {
-                $resFreeGeoIp   = json_decode($oCurl->response);
-                $this->location = new GeoPoint($resFreeGeoIp->latitude, $resFreeGeoIp->longitude);
+                    $resIpAPi       = json_decode($oCurl->response);
+                    $this->location = new GeoPoint($resIpAPi->latitude, $resIpAPi->longitude);
+                } else {
+                    $resFreeGeoIp   = json_decode($oCurl->response);
+                    $this->location = new GeoPoint($resFreeGeoIp->latitude, $resFreeGeoIp->longitude);
+                }
+            } catch (\Exception $e) {
+                throw new Exception('Cannot set location');
             }
         }
         $this->sunSchedule = null;
