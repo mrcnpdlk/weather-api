@@ -81,4 +81,13 @@ class Station
         return new GeoPoint($this->gegrLat, $this->gegrLon);
     }
 
+    /**
+     * @return \mrcnpdlk\Weather\NativeModel\Gios\Sensor[]
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getSensors(): array
+    {
+        return NativeGiosApi::getInstance()->getSensorsForStation($this->id);
+    }
+
 }
