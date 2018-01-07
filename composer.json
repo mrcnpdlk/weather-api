@@ -1,9 +1,12 @@
 {
   "name": "mrcnpdlk/weather-api",
-  "description": "Weather API for Poland",
+  "description": "Weather API and air quality for Poland",
   "keywords": [
     "weather",
-    "pogoda"
+    "pogoda",
+    "air quality",
+    "airly",
+    "gios"
   ],
   "type": "library",
   "license": "MIT",
