@@ -22,9 +22,9 @@ namespace mrcnpdlk\Weather;
 abstract class NativeApi
 {
     /**
-     * @var \mrcnpdlk\Weather\NativeApi|null
+     * @var \mrcnpdlk\Weather\NativeApi[]
      */
-    protected static $instance;
+    protected static $instances = [];
     /**
      * @var Client
      */
@@ -63,9 +63,10 @@ abstract class NativeApi
      */
     public static function create(Client $oClient)
     {
-        static::$instance = new static($oClient);
+        $calledClass                     = get_called_class();
+        static::$instances[$calledClass] = new $calledClass($oClient);
 
-        return static::$instance;
+        return static::$instances[$calledClass];
     }
 
     /**
@@ -74,10 +75,12 @@ abstract class NativeApi
      */
     public static function getInstance()
     {
-        if (null === static::$instance) {
-            throw new Exception(sprintf('First call CREATE method!'));
+        $calledClass = get_called_class();
+
+        if (!isset(static::$instances[$calledClass])) {
+            throw new Exception(sprintf('First call CREATE method for %s!', $calledClass));
         }
 
-        return static::$instance;
+        return static::$instances[$calledClass];
     }
 }

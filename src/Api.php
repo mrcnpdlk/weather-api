@@ -44,7 +44,7 @@ class Api
     /**
      * @var \DateTime
      */
-    private $dateTime;
+    private $currentDateTime;
     /**
      * @var NativeOWMApi
      */
@@ -65,9 +65,10 @@ class Api
      */
     public function __construct(Client $oClient)
     {
-        $this->oOWMApi   = NativeOWMApi::create($oClient);
-        $this->oGiosApi  = NativeGiosApi::create($oClient);
-        $this->oAirlyApi = NativeAirlyApi::create($oClient);
+        $this->oOWMApi         = NativeOWMApi::create($oClient);
+        $this->oGiosApi        = NativeGiosApi::create($oClient);
+        $this->oAirlyApi       = NativeAirlyApi::create($oClient);
+        $this->currentDateTime = new \DateTime();
     }
 
     /**
@@ -99,18 +100,6 @@ class Api
     }
 
     /**
-     * @return \DateTime
-     */
-    private function getDateTime(): \DateTime
-    {
-        if (null === $this->dateTime) {
-            $this->setDateTime();
-        }
-
-        return $this->dateTime;
-    }
-
-    /**
      * @return \mrcnpdlk\Weather\NativeModel\GeoPoint
      * @throws \mrcnpdlk\Weather\Exception
      */
@@ -124,6 +113,15 @@ class Api
     }
 
     /**
+     * @return \mrcnpdlk\Weather\NativeModel\Gios\Station
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getNearestGiosStation()
+    {
+        return $this->oGiosApi->findNearestStation($this->getLocation());
+    }
+
+    /**
      * Get timing for Sun
      *
      * @return \mrcnpdlk\Weather\Model\SunSchedule
@@ -133,7 +131,7 @@ class Api
     {
         if (null === $this->sunSchedule) {
             $res               = date_sun_info(
-                $this->getDateTime()->getTimestamp(),
+                $this->currentDateTime->getTimestamp(),
                 $this->getLocation()->lat,
                 $this->getLocation()->lon
             );
@@ -144,7 +142,7 @@ class Api
     }
 
     /**
-     * Get UV index for set day
+     * Get UV index
      *
      * @see https://en.wikipedia.org/wiki/Ultraviolet_index
      * @return float|null
@@ -152,7 +150,7 @@ class Api
     public function getUVIndex()
     {
         try {
-            $res = $this->oOWMApi->getUVIndex($this->getLocation(), $this->getDateTime());
+            $res = $this->oOWMApi->getUVIndex($this->getLocation(), $this->currentDateTime);
             if ($res) {
                 return $res->value;
             }
@@ -161,22 +159,6 @@ class Api
         } catch (\Exception $e) {
             return null;
         }
-    }
-
-    /**
-     * Setting Date for library.
-     * If NULL, then NOW and current timezone is set.
-     *
-     * @param \DateTime|null $oDateTime
-     *
-     * @return $this
-     */
-    public function setDateTime(\DateTime $oDateTime = null)
-    {
-        $this->dateTime    = $oDateTime ?? new \DateTime();
-        $this->sunSchedule = null;
-
-        return $this;
     }
 
     /**
@@ -214,4 +196,5 @@ class Api
 
         return $this;
     }
+
 }
