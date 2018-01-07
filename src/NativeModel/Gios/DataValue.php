@@ -33,7 +33,7 @@ class DataValue
     public $date;
 
     /**
-     * @var float
+     * @var float|null
      */
     public $value;
 }
