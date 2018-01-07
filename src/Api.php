@@ -26,6 +26,7 @@ use Curl\Curl;
 use mrcnpdlk\Weather\Model\Address;
 use mrcnpdlk\Weather\Model\SunSchedule;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
+use mrcnpdlk\Weather\NativeModel\Gios\Station as GiosStation;
 
 class Api
 {
@@ -116,7 +117,7 @@ class Api
      * @return \mrcnpdlk\Weather\NativeModel\Gios\Station
      * @throws \mrcnpdlk\Weather\Exception
      */
-    public function getNearestGiosStation()
+    public function getNearestGiosStation(): GiosStation
     {
         return $this->oGiosApi->findNearestStation($this->getLocation());
     }
@@ -162,6 +163,20 @@ class Api
     }
 
     /**
+     * Get current weather
+     *
+     * @return \mrcnpdlk\Weather\NativeModel\OWM\WeatherResponse|null
+     */
+    public function getWeather()
+    {
+        try {
+            return $this->oOWMApi->getWeather($this->getLocation());
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
      * @param \mrcnpdlk\Weather\NativeModel\GeoPoint|null $oGeoPoint
      *
      * @return $this
@@ -196,5 +211,4 @@ class Api
 
         return $this;
     }
-
 }
