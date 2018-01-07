@@ -21,6 +21,8 @@
 namespace mrcnpdlk\Weather\NativeModel\Gios;
 
 
+use mrcnpdlk\Weather\NativeGiosApi;
+
 class Sensor
 {
     /**
@@ -43,4 +45,15 @@ class Sensor
      * @var \mrcnpdlk\Weather\NativeModel\Gios\SensorParam
      */
     public $param;
+
+    /**
+     * @return \mrcnpdlk\Weather\NativeModel\Gios\Data
+     * @throws \JsonMapper_Exception
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getData()
+    {
+        return NativeGiosApi::getInstance()->getSensorData($this->id);
+    }
+
 }
