@@ -26,7 +26,7 @@ composer require mrcnpdlk/weather-api
 ### Cache
 Library supports Cache bundles based on [PSR-16](http://www.php-fig.org/psr/psr-16/) standard.
 
-For below example was used [phpfastcache/phpfastcache](https://github.com/PHPSocialNetwork/phpfastcache).
+For below example was used [phpfastcache/phpfastcache](https://github.com/PHPSocialNetwork/phpfastcache) V7.
 `phpfastcache/phpfastcache` supports a lot of endpoints, i.e. `Files`, `Sqlite`, `Redis` and many other. 
 More information about using cache and configuration it you can find in this [Wiki](https://github.com/PHPSocialNetwork/phpfastcache/wiki). 
 
@@ -35,23 +35,20 @@ More information about using cache and configuration it you can find in this [Wi
     /**
      * Cache in system files
      */
-    $oInstanceCacheFiles = new \phpFastCache\Helper\Psr16Adapter(
-        'files',
-        [
-            'defaultTtl' => 3600 * 24, // 24h
-            'path'       => sys_get_temp_dir(),
-        ]);
+    $oFilesConfig = new \Phpfastcache\Drivers\Files\Config();
+    $oFilesConfig->setPath(sys_get_temp_dir())->setDefaultTtl(60);
+    $oInstanceCacheFiles = new \Phpfastcache\Helper\Psr16Adapter('files', $oFilesConfig);
     /**
      * Cache in Redis
      */
-    $oInstanceCacheRedis = new \phpFastCache\Helper\Psr16Adapter(
-        'redis',
-        [
-            "host"                => null, // default localhost
-            "port"                => null, // default 6379
-            'defaultTtl'          => 3600 * 24, // 24h
-            'ignoreSymfonyNotice' => true,
-        ]);
+    $oRedisConfig = new \Phpfastcache\Drivers\Redis\Config();
+    $oRedisConfig
+        ->setHost('localhost')
+        ->setPort(6379)
+        ->setDefaultTtl(60)
+        ;
+    $oInstanceCacheRedis = new \Phpfastcache\Helper\Psr16Adapter('redis', $oRedisConfig);
+
 
 ```
 
@@ -66,7 +63,7 @@ $oInstanceLogger->pushHandler(new \Monolog\Handler\ErrorLogHandler(
         \Monolog\Handler\ErrorLogHandler::OPERATING_SYSTEM,
         \Psr\Log\LogLevel::DEBUG
     )
-);
+)->pushProcessor(new \Monolog\Processor\PsrLogMessageProcessor());
 ```
 
 ## External sources

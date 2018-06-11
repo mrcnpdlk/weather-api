@@ -25,6 +25,10 @@ class SunSchedule
      */
     public $dayDuration;
     /**
+     * @var integer|null
+     */
+    public $dayDurationMinutes;
+    /**
      * @var null|string
      */
     public $transit;
@@ -71,10 +75,11 @@ class SunSchedule
         $this->astronomicalTwilightBegin = \is_int($tData['astronomical_twilight_begin']) ? Carbon::createFromTimestamp($tData['astronomical_twilight_begin'])->toTimeString() : null;
         $this->astronomicalTwilightEnd   = \is_int($tData['astronomical_twilight_end']) ? Carbon::createFromTimestamp($tData['astronomical_twilight_end'])->toTimeString() : null;
         if (\is_int($tData['sunrise']) && \is_int($tData['sunset'])) {
-            $sunrise           = Carbon::createFromTimestamp($tData['sunrise']);
-            $sunset            = Carbon::createFromTimestamp($tData['sunset']);
-            $diff              = $sunrise->diffInMinutes($sunset);
-            $this->dayDuration = (int)($diff / 60) . ':' . str_pad($diff % 60, 2, '0', \STR_PAD_LEFT);
+            $sunrise                  = Carbon::createFromTimestamp($tData['sunrise']);
+            $sunset                   = Carbon::createFromTimestamp($tData['sunset']);
+            $this->dayDurationMinutes = $sunrise->diffInMinutes($sunset);
+            $this->dayDuration        = (int)($this->dayDurationMinutes / 60) . ':' . str_pad($this->dayDurationMinutes % 60, 2, '0',
+                    \STR_PAD_LEFT);
         }
     }
 

@@ -18,6 +18,7 @@ namespace mrcnpdlk\Weather\NativeModel\Airly;
 
 
 use Carbon\Carbon;
+use mrcnpdlk\Weather\NativeAirlyApi;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
 
 class Station
@@ -73,6 +74,16 @@ class Station
     public function getLocation(): GeoPoint
     {
         return new GeoPoint($this->location->latitude, $this->location->longitude);
+    }
+
+    /**
+     * @return \mrcnpdlk\Weather\NativeModel\Airly\MeasurementResponse
+     * @throws \JsonMapper_Exception
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getMeasurements(): MeasurementResponse
+    {
+        return NativeAirlyApi::getInstance()->getStationMeasurements($this->id);
     }
 
     /**

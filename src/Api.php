@@ -25,6 +25,7 @@ namespace mrcnpdlk\Weather;
 use Curl\Curl;
 use mrcnpdlk\Weather\Model\Address;
 use mrcnpdlk\Weather\Model\SunSchedule;
+use mrcnpdlk\Weather\NativeModel\Airly\Station as AirlyStation;
 use mrcnpdlk\Weather\NativeModel\GeoPoint;
 use mrcnpdlk\Weather\NativeModel\Gios\Station as GiosStation;
 
@@ -114,6 +115,15 @@ class Api
     }
 
     /**
+     * @return \mrcnpdlk\Weather\NativeModel\Airly\Station
+     * @throws \mrcnpdlk\Weather\Exception
+     */
+    public function getNearestAirlyStation(): AirlyStation
+    {
+        return $this->oAirlyApi->findNearestStation($this->getLocation());
+    }
+
+    /**
      * @return \mrcnpdlk\Weather\NativeModel\Gios\Station
      * @throws \mrcnpdlk\Weather\Exception
      */
@@ -152,6 +162,23 @@ class Api
     {
         try {
             $res = $this->oOWMApi->getUVIndex($this->getLocation(), $this->currentDateTime);
+            if ($res) {
+                return $res->value;
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getUVIndexCurrent()
+    {
+        try {
+            $res = $this->oOWMApi->getUVIndexCurrent($this->getLocation());
             if ($res) {
                 return $res->value;
             }

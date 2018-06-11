@@ -38,6 +38,16 @@ class StationQualityIndex
      */
     public $stIndexLevel;
     /**
+     * @var mixed
+     * @todo Not described
+     */
+    public $stIndexStatus;
+    /**
+     * @var mixed
+     * @todo Not described
+     */
+    public $stIndexCrParam;
+    /**
      * @var string|null
      */
     public $stSourceDataDate;
