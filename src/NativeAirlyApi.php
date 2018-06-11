@@ -39,6 +39,7 @@ class NativeAirlyApi extends NativeApi
      *
      * @return Station
      * @throws \mrcnpdlk\Weather\Exception
+     * @throws \JsonMapper_Exception
      */
     public function findNearestStation(GeoPoint $oPoint, int $radius = null): Station
     {
@@ -50,7 +51,7 @@ class NativeAirlyApi extends NativeApi
             'longitude'   => $oPoint->lon,
             'maxDistance' => $radius,
         ]);
-        $answer = $this->jsonMapper->map(json_decode($res), new Station());
+        $answer = $this->jsonMapper->map($res, new Station());
 
         return $answer;
     }
@@ -168,7 +169,7 @@ class NativeAirlyApi extends NativeApi
          */
         $res = $this->request('sensor/measurements', ['sensorId' => $stationId]);
 
-        $answer = $this->jsonMapper->map(json_decode($res), new MeasurementResponse());
+        $answer = $this->jsonMapper->map($res, new MeasurementResponse());
 
         return $answer;
     }

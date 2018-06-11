@@ -4,63 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "83e588c9343b15fbbb798774e3a8776e",
+    "content-hash": "089216c08501247d0af7ecf8eb42ade9",
     "packages": [
-        {
-            "name": "curl/curl",
-            "version": "1.9.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-mod/curl.git",
-                "reference": "958363d1fed599aa24efb2221e2c1e6c61711464"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-mod/curl/zipball/958363d1fed599aa24efb2221e2c1e6c61711464",
-                "reference": "958363d1fed599aa24efb2221e2c1e6c61711464",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*",
-                "squizlabs/php_codesniffer": "~2.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Curl": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hassan Amouhzi",
-                    "email": "hassan@anezi.net",
-                    "homepage": "http://hassan.amouhzi.com"
-                },
-                {
-                    "name": "php-curl-class",
-                    "homepage": "https://github.com/php-curl-class"
-                },
-                {
-                    "name": "user52",
-                    "homepage": "https://github.com/user52"
-                }
-            ],
-            "description": "cURL class for PHP",
-            "homepage": "https://github.com/php-mod/curl",
-            "keywords": [
-                "curl",
-                "dot"
-            ],
-            "time": "2018-05-23T20:32:06+00:00"
-        },
         {
             "name": "mjaschen/phpgeo",
             "version": "2.0.2",
@@ -261,6 +206,63 @@
             ],
             "description": "Map nested JSON structures onto PHP classes",
             "time": "2017-11-28T21:30:01+00:00"
+        },
+        {
+            "name": "php-curl-class/php-curl-class",
+            "version": "8.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-curl-class/php-curl-class.git",
+                "reference": "4b19e0fa0278b45452164d3043057cccb4f750db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/4b19e0fa0278b45452164d3043057cccb4f750db",
+                "reference": "4b19e0fa0278b45452164d3043057cccb4f750db",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Curl\\": "src/Curl/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Zach Borboa"
+                }
+            ],
+            "description": "PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs.",
+            "homepage": "https://github.com/php-curl-class/php-curl-class",
+            "keywords": [
+                "api",
+                "class",
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "json",
+                "php",
+                "requests",
+                "rest",
+                "restful",
+                "web service",
+                "xml"
+            ],
+            "time": "2018-04-21T08:28:43+00:00"
         },
         {
             "name": "psr/log",

@@ -58,9 +58,8 @@ class NativeOWMApi extends NativeApi
                 'end'   => $timestamp,
             ]
         );
-        $tRes      = json_decode($res);
-        if (count($tRes)) {
-            $oJson = $this->jsonMapper->map($tRes[0], new UVIndexResponse());
+        if (count($res)) {
+            $oJson = $this->jsonMapper->map($res[0], new UVIndexResponse());
 
             return $oJson;
         }
@@ -94,7 +93,7 @@ class NativeOWMApi extends NativeApi
         );
 
 
-        $oJson = $this->jsonMapper->map(json_decode($res), new UVIndexResponse());
+        $oJson = $this->jsonMapper->map($res, new UVIndexResponse());
 
         return $oJson;
     }

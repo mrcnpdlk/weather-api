@@ -188,8 +188,7 @@ class NativeGiosApi extends NativeApi
                     if ($oCurl->error) {
                         throw new \RuntimeException('Curl error', $oCurl->error_code);
                     }
-
-                    return json_decode($oCurl->response);
+                    return $oCurl->response;
                 },
                 [__METHOD__, $suffix],
                 600

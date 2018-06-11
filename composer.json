@@ -23,7 +23,7 @@
     "php": ">=7.0",
     "ext-curl": "*",
     "mrcnpdlk/psr16cache-adapter": "~0.1.1",
-    "curl/curl": "^1.9.1",
+    "php-curl-class/php-curl-class": "~8.0.3",
     "mjaschen/phpgeo": "^2.0.2",
     "nesbot/carbon": "^1.29.2",
     "netresearch/jsonmapper": "^1.4.0"

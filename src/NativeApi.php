@@ -63,7 +63,7 @@ abstract class NativeApi
      */
     public static function create(Client $oClient)
     {
-        $calledClass                     = get_called_class();
+        $calledClass                     = static::class;
         static::$instances[$calledClass] = new $calledClass($oClient);
 
         return static::$instances[$calledClass];
